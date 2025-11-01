@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-@immutable
 class ShuttlersChatTheme extends ThemeExtension<ShuttlersChatTheme> {
   const ShuttlersChatTheme({
     required this.meBubble,
@@ -74,19 +73,3 @@ class ShuttlersChatTheme extends ThemeExtension<ShuttlersChatTheme> {
     );
   }
 }
-
-// final light = ThemeData(
-//   colorScheme: ColorScheme.fromSeed(
-//     seedColor: const Color(0xFF0DAC5C),
-//     brightness: Brightness.light,
-//   ),
-//   extensions: [ShuttlersChatTheme.shuttlersBrand(ThemeData.light())],
-// );
-
-// final dark = ThemeData(
-//   colorScheme: ColorScheme.fromSeed(
-//     seedColor: const Color(0xFF0DAC5C),
-//     brightness: Brightness.dark,
-//   ),
-//   extensions: [ShuttlersChatTheme.shuttlersBrand(ThemeData.dark())],
-// );

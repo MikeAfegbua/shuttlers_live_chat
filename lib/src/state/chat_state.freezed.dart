@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$ChatState {
 
- bool get connected; List<ChatMessage> get messages; bool get loading; bool get isLoadingMore; bool get hasMore; String? get error; int get presenceCount; Set<String> get typingUsers; Map<String, String> get deliveryByClientId; Set<String> get seenClientIds;
+ bool get connected; List<ChatMessage> get messages; bool get loading; String? get error; int get presenceCount; Set<String> get typingUsers; Map<String, String> get deliveryByClientId; Set<String> get seenClientIds;
 /// Create a copy of ChatState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +25,16 @@ $ChatStateCopyWith<ChatState> get copyWith => _$ChatStateCopyWithImpl<ChatState>
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ChatState&&(identical(other.connected, connected) || other.connected == connected)&&const DeepCollectionEquality().equals(other.messages, messages)&&(identical(other.loading, loading) || other.loading == loading)&&(identical(other.isLoadingMore, isLoadingMore) || other.isLoadingMore == isLoadingMore)&&(identical(other.hasMore, hasMore) || other.hasMore == hasMore)&&(identical(other.error, error) || other.error == error)&&(identical(other.presenceCount, presenceCount) || other.presenceCount == presenceCount)&&const DeepCollectionEquality().equals(other.typingUsers, typingUsers)&&const DeepCollectionEquality().equals(other.deliveryByClientId, deliveryByClientId)&&const DeepCollectionEquality().equals(other.seenClientIds, seenClientIds));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ChatState&&(identical(other.connected, connected) || other.connected == connected)&&const DeepCollectionEquality().equals(other.messages, messages)&&(identical(other.loading, loading) || other.loading == loading)&&(identical(other.error, error) || other.error == error)&&(identical(other.presenceCount, presenceCount) || other.presenceCount == presenceCount)&&const DeepCollectionEquality().equals(other.typingUsers, typingUsers)&&const DeepCollectionEquality().equals(other.deliveryByClientId, deliveryByClientId)&&const DeepCollectionEquality().equals(other.seenClientIds, seenClientIds));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,connected,const DeepCollectionEquality().hash(messages),loading,isLoadingMore,hasMore,error,presenceCount,const DeepCollectionEquality().hash(typingUsers),const DeepCollectionEquality().hash(deliveryByClientId),const DeepCollectionEquality().hash(seenClientIds));
+int get hashCode => Object.hash(runtimeType,connected,const DeepCollectionEquality().hash(messages),loading,error,presenceCount,const DeepCollectionEquality().hash(typingUsers),const DeepCollectionEquality().hash(deliveryByClientId),const DeepCollectionEquality().hash(seenClientIds));
 
 @override
 String toString() {
-  return 'ChatState(connected: $connected, messages: $messages, loading: $loading, isLoadingMore: $isLoadingMore, hasMore: $hasMore, error: $error, presenceCount: $presenceCount, typingUsers: $typingUsers, deliveryByClientId: $deliveryByClientId, seenClientIds: $seenClientIds)';
+  return 'ChatState(connected: $connected, messages: $messages, loading: $loading, error: $error, presenceCount: $presenceCount, typingUsers: $typingUsers, deliveryByClientId: $deliveryByClientId, seenClientIds: $seenClientIds)';
 }
 
 
@@ -45,7 +45,7 @@ abstract mixin class $ChatStateCopyWith<$Res>  {
   factory $ChatStateCopyWith(ChatState value, $Res Function(ChatState) _then) = _$ChatStateCopyWithImpl;
 @useResult
 $Res call({
- bool connected, List<ChatMessage> messages, bool loading, bool isLoadingMore, bool hasMore, String? error, int presenceCount, Set<String> typingUsers, Map<String, String> deliveryByClientId, Set<String> seenClientIds
+ bool connected, List<ChatMessage> messages, bool loading, String? error, int presenceCount, Set<String> typingUsers, Map<String, String> deliveryByClientId, Set<String> seenClientIds
 });
 
 
@@ -62,13 +62,11 @@ class _$ChatStateCopyWithImpl<$Res>
 
 /// Create a copy of ChatState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? connected = null,Object? messages = null,Object? loading = null,Object? isLoadingMore = null,Object? hasMore = null,Object? error = freezed,Object? presenceCount = null,Object? typingUsers = null,Object? deliveryByClientId = null,Object? seenClientIds = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? connected = null,Object? messages = null,Object? loading = null,Object? error = freezed,Object? presenceCount = null,Object? typingUsers = null,Object? deliveryByClientId = null,Object? seenClientIds = null,}) {
   return _then(_self.copyWith(
 connected: null == connected ? _self.connected : connected // ignore: cast_nullable_to_non_nullable
 as bool,messages: null == messages ? _self.messages : messages // ignore: cast_nullable_to_non_nullable
 as List<ChatMessage>,loading: null == loading ? _self.loading : loading // ignore: cast_nullable_to_non_nullable
-as bool,isLoadingMore: null == isLoadingMore ? _self.isLoadingMore : isLoadingMore // ignore: cast_nullable_to_non_nullable
-as bool,hasMore: null == hasMore ? _self.hasMore : hasMore // ignore: cast_nullable_to_non_nullable
 as bool,error: freezed == error ? _self.error : error // ignore: cast_nullable_to_non_nullable
 as String?,presenceCount: null == presenceCount ? _self.presenceCount : presenceCount // ignore: cast_nullable_to_non_nullable
 as int,typingUsers: null == typingUsers ? _self.typingUsers : typingUsers // ignore: cast_nullable_to_non_nullable
@@ -156,10 +154,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( bool connected,  List<ChatMessage> messages,  bool loading,  bool isLoadingMore,  bool hasMore,  String? error,  int presenceCount,  Set<String> typingUsers,  Map<String, String> deliveryByClientId,  Set<String> seenClientIds)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( bool connected,  List<ChatMessage> messages,  bool loading,  String? error,  int presenceCount,  Set<String> typingUsers,  Map<String, String> deliveryByClientId,  Set<String> seenClientIds)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _ChatState() when $default != null:
-return $default(_that.connected,_that.messages,_that.loading,_that.isLoadingMore,_that.hasMore,_that.error,_that.presenceCount,_that.typingUsers,_that.deliveryByClientId,_that.seenClientIds);case _:
+return $default(_that.connected,_that.messages,_that.loading,_that.error,_that.presenceCount,_that.typingUsers,_that.deliveryByClientId,_that.seenClientIds);case _:
   return orElse();
 
 }
@@ -177,10 +175,10 @@ return $default(_that.connected,_that.messages,_that.loading,_that.isLoadingMore
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( bool connected,  List<ChatMessage> messages,  bool loading,  bool isLoadingMore,  bool hasMore,  String? error,  int presenceCount,  Set<String> typingUsers,  Map<String, String> deliveryByClientId,  Set<String> seenClientIds)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( bool connected,  List<ChatMessage> messages,  bool loading,  String? error,  int presenceCount,  Set<String> typingUsers,  Map<String, String> deliveryByClientId,  Set<String> seenClientIds)  $default,) {final _that = this;
 switch (_that) {
 case _ChatState():
-return $default(_that.connected,_that.messages,_that.loading,_that.isLoadingMore,_that.hasMore,_that.error,_that.presenceCount,_that.typingUsers,_that.deliveryByClientId,_that.seenClientIds);}
+return $default(_that.connected,_that.messages,_that.loading,_that.error,_that.presenceCount,_that.typingUsers,_that.deliveryByClientId,_that.seenClientIds);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -194,10 +192,10 @@ return $default(_that.connected,_that.messages,_that.loading,_that.isLoadingMore
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( bool connected,  List<ChatMessage> messages,  bool loading,  bool isLoadingMore,  bool hasMore,  String? error,  int presenceCount,  Set<String> typingUsers,  Map<String, String> deliveryByClientId,  Set<String> seenClientIds)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( bool connected,  List<ChatMessage> messages,  bool loading,  String? error,  int presenceCount,  Set<String> typingUsers,  Map<String, String> deliveryByClientId,  Set<String> seenClientIds)?  $default,) {final _that = this;
 switch (_that) {
 case _ChatState() when $default != null:
-return $default(_that.connected,_that.messages,_that.loading,_that.isLoadingMore,_that.hasMore,_that.error,_that.presenceCount,_that.typingUsers,_that.deliveryByClientId,_that.seenClientIds);case _:
+return $default(_that.connected,_that.messages,_that.loading,_that.error,_that.presenceCount,_that.typingUsers,_that.deliveryByClientId,_that.seenClientIds);case _:
   return null;
 
 }
@@ -209,7 +207,7 @@ return $default(_that.connected,_that.messages,_that.loading,_that.isLoadingMore
 
 
 class _ChatState implements ChatState {
-  const _ChatState({this.connected = false, final  List<ChatMessage> messages = const <ChatMessage>[], this.loading = false, this.isLoadingMore = false, this.hasMore = true, this.error, this.presenceCount = 0, final  Set<String> typingUsers = const <String>{}, final  Map<String, String> deliveryByClientId = const <String, String>{}, final  Set<String> seenClientIds = const <String>{}}): _messages = messages,_typingUsers = typingUsers,_deliveryByClientId = deliveryByClientId,_seenClientIds = seenClientIds;
+  const _ChatState({this.connected = false, final  List<ChatMessage> messages = const <ChatMessage>[], this.loading = false, this.error, this.presenceCount = 0, final  Set<String> typingUsers = const <String>{}, final  Map<String, String> deliveryByClientId = const <String, String>{}, final  Set<String> seenClientIds = const <String>{}}): _messages = messages,_typingUsers = typingUsers,_deliveryByClientId = deliveryByClientId,_seenClientIds = seenClientIds;
   
 
 @override@JsonKey() final  bool connected;
@@ -221,8 +219,6 @@ class _ChatState implements ChatState {
 }
 
 @override@JsonKey() final  bool loading;
-@override@JsonKey() final  bool isLoadingMore;
-@override@JsonKey() final  bool hasMore;
 @override final  String? error;
 @override@JsonKey() final  int presenceCount;
  final  Set<String> _typingUsers;
@@ -257,16 +253,16 @@ _$ChatStateCopyWith<_ChatState> get copyWith => __$ChatStateCopyWithImpl<_ChatSt
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ChatState&&(identical(other.connected, connected) || other.connected == connected)&&const DeepCollectionEquality().equals(other._messages, _messages)&&(identical(other.loading, loading) || other.loading == loading)&&(identical(other.isLoadingMore, isLoadingMore) || other.isLoadingMore == isLoadingMore)&&(identical(other.hasMore, hasMore) || other.hasMore == hasMore)&&(identical(other.error, error) || other.error == error)&&(identical(other.presenceCount, presenceCount) || other.presenceCount == presenceCount)&&const DeepCollectionEquality().equals(other._typingUsers, _typingUsers)&&const DeepCollectionEquality().equals(other._deliveryByClientId, _deliveryByClientId)&&const DeepCollectionEquality().equals(other._seenClientIds, _seenClientIds));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ChatState&&(identical(other.connected, connected) || other.connected == connected)&&const DeepCollectionEquality().equals(other._messages, _messages)&&(identical(other.loading, loading) || other.loading == loading)&&(identical(other.error, error) || other.error == error)&&(identical(other.presenceCount, presenceCount) || other.presenceCount == presenceCount)&&const DeepCollectionEquality().equals(other._typingUsers, _typingUsers)&&const DeepCollectionEquality().equals(other._deliveryByClientId, _deliveryByClientId)&&const DeepCollectionEquality().equals(other._seenClientIds, _seenClientIds));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,connected,const DeepCollectionEquality().hash(_messages),loading,isLoadingMore,hasMore,error,presenceCount,const DeepCollectionEquality().hash(_typingUsers),const DeepCollectionEquality().hash(_deliveryByClientId),const DeepCollectionEquality().hash(_seenClientIds));
+int get hashCode => Object.hash(runtimeType,connected,const DeepCollectionEquality().hash(_messages),loading,error,presenceCount,const DeepCollectionEquality().hash(_typingUsers),const DeepCollectionEquality().hash(_deliveryByClientId),const DeepCollectionEquality().hash(_seenClientIds));
 
 @override
 String toString() {
-  return 'ChatState(connected: $connected, messages: $messages, loading: $loading, isLoadingMore: $isLoadingMore, hasMore: $hasMore, error: $error, presenceCount: $presenceCount, typingUsers: $typingUsers, deliveryByClientId: $deliveryByClientId, seenClientIds: $seenClientIds)';
+  return 'ChatState(connected: $connected, messages: $messages, loading: $loading, error: $error, presenceCount: $presenceCount, typingUsers: $typingUsers, deliveryByClientId: $deliveryByClientId, seenClientIds: $seenClientIds)';
 }
 
 
@@ -277,7 +273,7 @@ abstract mixin class _$ChatStateCopyWith<$Res> implements $ChatStateCopyWith<$Re
   factory _$ChatStateCopyWith(_ChatState value, $Res Function(_ChatState) _then) = __$ChatStateCopyWithImpl;
 @override @useResult
 $Res call({
- bool connected, List<ChatMessage> messages, bool loading, bool isLoadingMore, bool hasMore, String? error, int presenceCount, Set<String> typingUsers, Map<String, String> deliveryByClientId, Set<String> seenClientIds
+ bool connected, List<ChatMessage> messages, bool loading, String? error, int presenceCount, Set<String> typingUsers, Map<String, String> deliveryByClientId, Set<String> seenClientIds
 });
 
 
@@ -294,13 +290,11 @@ class __$ChatStateCopyWithImpl<$Res>
 
 /// Create a copy of ChatState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? connected = null,Object? messages = null,Object? loading = null,Object? isLoadingMore = null,Object? hasMore = null,Object? error = freezed,Object? presenceCount = null,Object? typingUsers = null,Object? deliveryByClientId = null,Object? seenClientIds = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? connected = null,Object? messages = null,Object? loading = null,Object? error = freezed,Object? presenceCount = null,Object? typingUsers = null,Object? deliveryByClientId = null,Object? seenClientIds = null,}) {
   return _then(_ChatState(
 connected: null == connected ? _self.connected : connected // ignore: cast_nullable_to_non_nullable
 as bool,messages: null == messages ? _self._messages : messages // ignore: cast_nullable_to_non_nullable
 as List<ChatMessage>,loading: null == loading ? _self.loading : loading // ignore: cast_nullable_to_non_nullable
-as bool,isLoadingMore: null == isLoadingMore ? _self.isLoadingMore : isLoadingMore // ignore: cast_nullable_to_non_nullable
-as bool,hasMore: null == hasMore ? _self.hasMore : hasMore // ignore: cast_nullable_to_non_nullable
 as bool,error: freezed == error ? _self.error : error // ignore: cast_nullable_to_non_nullable
 as String?,presenceCount: null == presenceCount ? _self.presenceCount : presenceCount // ignore: cast_nullable_to_non_nullable
 as int,typingUsers: null == typingUsers ? _self._typingUsers : typingUsers // ignore: cast_nullable_to_non_nullable

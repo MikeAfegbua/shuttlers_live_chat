@@ -6,13 +6,14 @@ A Flutter package for real-time trip chat functionality.
 
 ## Features
 
-- Real-time WebSocket messaging
-- Offline message queuing
-- Typing indicators
-- Presence tracking
-- Message delivery status
-- Connection status indicator
+- JOIN CHAT ROOM
+- SEND AND RECEIVE REAL-TIME MESSAGES
+- PRESENSE/TYPING INDICATORS
+- OFFLINE MESSAGE QUEUING AND RETRIES
+- CONNECTION STATUS INDICATOR
 
 ## Getting Started
 
-See the example app for usage details.
+- fvm dart run build_runner build --delete-conflicting-outputs  
+- flutter test --coverage && genhtml coverage/lcov.info -o coverage/html 2>&1 | grep "lines"
+- See the example app for usage details.

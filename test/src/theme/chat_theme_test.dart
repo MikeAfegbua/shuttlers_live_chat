@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:shuttlers_live_chat/src/theme/chat_theme.dart';
+import 'package:shuttlers_live_chat/src/core/theme/app_theme.dart';
+import 'package:shuttlers_live_chat/src/core/theme/chat_theme.dart';
 
 void main() {
   group('ShuttlersChatTheme', () {
@@ -194,6 +195,58 @@ void main() {
 
       expect(lerped.meBubble, color2);
       expect(lerped.otherBubble, color2);
+    });
+  });
+
+  group('Exported Themes', () {
+    test('lightTheme should be configured', () {
+      final lightTheme = AppTheme.lightTheme();
+
+      expect(lightTheme, isA<ThemeData>());
+      expect(lightTheme.brightness, Brightness.light);
+      expect(lightTheme.useMaterial3, isTrue);
+      expect(lightTheme.extensions[ShuttlersChatTheme], isNotNull);
+    });
+
+    test('darkTheme should be configured', () {
+      final darkTheme = AppTheme.darkTheme();
+
+      expect(darkTheme, isA<ThemeData>());
+      expect(darkTheme.brightness, Brightness.dark);
+      expect(darkTheme.useMaterial3, isTrue);
+      expect(darkTheme.extensions[ShuttlersChatTheme], isNotNull);
+    });
+
+    test('lightTheme should have text theme', () {
+      final lightTheme = AppTheme.lightTheme();
+
+      expect(lightTheme.textTheme, isNotNull);
+      expect(lightTheme.textTheme.bodyMedium, isNotNull);
+      expect(lightTheme.textTheme.bodyMedium?.fontSize, 14);
+      expect(lightTheme.textTheme.titleLarge?.fontWeight, FontWeight.w600);
+    });
+
+    test('darkTheme should have text theme', () {
+      final darkTheme = AppTheme.darkTheme();
+
+      expect(darkTheme.textTheme, isNotNull);
+      expect(darkTheme.textTheme.bodyMedium, isNotNull);
+      expect(darkTheme.textTheme.bodyMedium?.fontSize, 14);
+      expect(darkTheme.textTheme.titleLarge?.fontWeight, FontWeight.w600);
+    });
+
+    test('both themes should have consistent text styles', () {
+      final lightTheme = AppTheme.lightTheme();
+      final darkTheme = AppTheme.darkTheme();
+
+      expect(
+        lightTheme.textTheme.bodyMedium?.fontSize,
+        darkTheme.textTheme.bodyMedium?.fontSize,
+      );
+      expect(
+        lightTheme.textTheme.titleLarge?.fontWeight,
+        darkTheme.textTheme.titleLarge?.fontWeight,
+      );
     });
   });
 }

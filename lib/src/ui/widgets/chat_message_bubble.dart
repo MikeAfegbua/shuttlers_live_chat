@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:shuttlers_live_chat/src/core/theme/chat_theme.dart';
+import 'package:shuttlers_live_chat/src/core/utils/date_formatters.dart';
 import 'package:shuttlers_live_chat/src/data/models/chat_message.dart';
-import 'package:shuttlers_live_chat/src/theme/chat_theme.dart';
-import 'package:shuttlers_live_chat/src/ui/utils/date_formatters.dart';
 
 class ChatMessageBubble extends StatelessWidget {
   const ChatMessageBubble({

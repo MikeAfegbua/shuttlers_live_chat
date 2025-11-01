@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:shuttlers_live_chat/src/ui/utils/date_formatters.dart';
+import 'package:shuttlers_live_chat/src/core/utils/date_formatters.dart';
 
 void main() {
   group('DateTimeFormatters', () {

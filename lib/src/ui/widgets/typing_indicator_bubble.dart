@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:shuttlers_live_chat/src/theme/chat_theme.dart';
+import 'package:shuttlers_live_chat/src/core/theme/chat_theme.dart';
 
 class TypingIndicatorBubble extends StatelessWidget {
   const TypingIndicatorBubble({

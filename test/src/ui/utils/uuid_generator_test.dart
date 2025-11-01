@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:shuttlers_live_chat/src/ui/utils/uuid_generator.dart';
+import 'package:shuttlers_live_chat/src/core/utils/uuid_generator.dart';
 
 void main() {
   group('UuidGenerator', () {

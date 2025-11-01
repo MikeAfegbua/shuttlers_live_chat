@@ -1,13 +1,13 @@
 import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import 'package:shuttlers_live_chat/src/chat_config.dart';
+import 'package:shuttlers_live_chat/src/core/utils/date_formatters.dart';
+import 'package:shuttlers_live_chat/src/core/utils/uuid_generator.dart';
 import 'package:shuttlers_live_chat/src/l10n/l10n.dart';
 import 'package:shuttlers_live_chat/src/state/providers.dart';
-import 'package:shuttlers_live_chat/src/ui/utils/date_formatters.dart';
-import 'package:shuttlers_live_chat/src/ui/utils/uuid_generator.dart';
 import 'package:shuttlers_live_chat/src/ui/widgets/chat_message_bubble.dart';
 import 'package:shuttlers_live_chat/src/ui/widgets/connection_indicator.dart';
 import 'package:shuttlers_live_chat/src/ui/widgets/date_header.dart';
