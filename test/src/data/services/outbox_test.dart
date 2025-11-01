@@ -71,8 +71,8 @@ void main() {
 
     test('should emit changes through stream', () async {
       final item = OutboxItem(clientId: 'client1', text: 'Hello');
-      
-      expectLater(
+
+      await expectLater(
         outbox.changes,
         emitsInOrder([
           predicate<List<OutboxItem>>((list) => list.length == 1),

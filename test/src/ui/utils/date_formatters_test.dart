@@ -10,7 +10,7 @@ void main() {
       final afternoon = DateTime(2024, 1, 15, 14, 45);
       expect(afternoon.formatTime(), '2:45 PM');
 
-      final midnight = DateTime(2024, 1, 15, 0);
+      final midnight = DateTime(2024, 1, 15);
       expect(midnight.formatTime(), '12:00 AM');
 
       final noon = DateTime(2024, 1, 15, 12);
@@ -62,7 +62,7 @@ void main() {
 
     test('isSameDayAs should return false for different years', () {
       final date1 = DateTime(2023, 12, 31);
-      final date2 = DateTime(2024, 1);
+      final date2 = DateTime(2024);
 
       expect(date1.isSameDayAs(date2), isFalse);
     });
