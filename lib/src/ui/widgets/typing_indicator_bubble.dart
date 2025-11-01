@@ -1,0 +1,58 @@
+import 'package:flutter/material.dart';
+import 'package:shuttlers_live_chat/src/theme/chat_theme.dart';
+
+class TypingIndicatorBubble extends StatelessWidget {
+  const TypingIndicatorBubble({
+    required this.typingText,
+    super.key,
+  });
+
+  final String typingText;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final chatTheme =
+        theme.extension<ShuttlersChatTheme>() ??
+        ShuttlersChatTheme.shuttlersBrand(theme);
+
+    return Align(
+      alignment: Alignment.centerLeft,
+      child: Container(
+        margin: const EdgeInsets.symmetric(
+          horizontal: 12,
+          vertical: 6,
+        ),
+        padding: const EdgeInsets.symmetric(
+          horizontal: 12,
+          vertical: 10,
+        ),
+        decoration: BoxDecoration(
+          color: theme.colorScheme.surfaceContainerHighest,
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              typingText,
+              style: theme.textTheme.bodySmall?.copyWith(
+                fontStyle: FontStyle.italic,
+                color: chatTheme.typingText,
+              ),
+            ),
+            const SizedBox(width: 8),
+            SizedBox(
+              width: 14,
+              height: 14,
+              child: CircularProgressIndicator(
+                strokeWidth: 2,
+                color: chatTheme.typingText,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
