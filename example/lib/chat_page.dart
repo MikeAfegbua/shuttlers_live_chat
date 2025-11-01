@@ -1,15 +1,9 @@
+import 'package:example/theme_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:shuttlers_live_chat/shuttlers_live_chat.dart';
 
 class ChatPage extends StatefulWidget {
-  const ChatPage({
-    required this.themeMode,
-    required this.onToggleTheme,
-    super.key,
-  });
-
-  final ThemeMode themeMode;
-  final VoidCallback onToggleTheme;
+  const ChatPage({super.key});
 
   @override
   State<ChatPage> createState() => _ChatPageState();
@@ -19,8 +13,8 @@ class _ChatPageState extends State<ChatPage> {
   final _form = GlobalKey<FormState>();
 
   final _authCtrl = TextEditingController();
-  final _tripCtrl = TextEditingController(text: 'trip_001');
-  final _userCtrl = TextEditingController(text: 'Jacob');
+  final _tripCtrl = TextEditingController(text: 'trip_005');
+  final _userCtrl = TextEditingController(text: 'Michael');
   final _avatarCtrl = TextEditingController();
 
   final _baseCtrl = TextEditingController(
@@ -46,7 +40,7 @@ class _ChatPageState extends State<ChatPage> {
   @override
   Widget build(BuildContext context) {
     const pad = EdgeInsets.symmetric(horizontal: 16, vertical: 8);
-    final isDark = widget.themeMode == ThemeMode.dark;
+    final isDark = themeNotifier.themeMode == ThemeMode.dark;
 
     return Scaffold(
       appBar: AppBar(
@@ -55,7 +49,7 @@ class _ChatPageState extends State<ChatPage> {
           IconButton(
             tooltip: isDark ? 'Switch to Light' : 'Switch to Dark',
             icon: Icon(isDark ? Icons.light_mode : Icons.dark_mode),
-            onPressed: widget.onToggleTheme,
+            onPressed: themeNotifier.toggleTheme,
           ),
         ],
       ),
@@ -74,7 +68,7 @@ class _ChatPageState extends State<ChatPage> {
                   controller: _authCtrl,
                   obscureText: _obscure,
                   decoration: InputDecoration(
-                    labelText: 'Auth Token (JWT)',
+                    labelText: 'AuthToken (JWT)',
                     suffixIcon: IconButton(
                       icon: Icon(
                         _obscure ? Icons.visibility : Icons.visibility_off,
