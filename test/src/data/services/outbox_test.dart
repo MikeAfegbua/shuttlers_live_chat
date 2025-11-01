@@ -46,7 +46,6 @@ void main() {
       final item = OutboxItem(clientId: 'client1', text: 'Hello');
       await outbox.add(item);
 
-      // Create new outbox instance and verify persistence
       final newOutbox = Outbox();
       await newOutbox.init();
 
@@ -72,16 +71,19 @@ void main() {
     test('should emit changes through stream', () async {
       final item = OutboxItem(clientId: 'client1', text: 'Hello');
 
-      await expectLater(
-        outbox.changes,
-        emitsInOrder([
-          predicate<List<OutboxItem>>((list) => list.length == 1),
-          predicate<List<OutboxItem>>((list) => list.isEmpty),
-        ]),
-      );
+      final events = <List<OutboxItem>>[];
+      final subscription = outbox.changes.listen(events.add);
 
       await outbox.add(item);
       await outbox.removeById('client1');
+
+      await Future<void>.delayed(const Duration(milliseconds: 100));
+
+      expect(events.length, 2);
+      expect(events[0].length, 1);
+      expect(events[1].isEmpty, isTrue);
+
+      await subscription.cancel();
     });
 
     test('should serialize and deserialize OutboxItem correctly', () {
