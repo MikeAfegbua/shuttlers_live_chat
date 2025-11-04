@@ -139,9 +139,7 @@ class _TripChatViewState extends ConsumerState<_TripChatView> {
                             ),
                             actions: [
                               TextButton(
-                                onPressed: () {
-                                  // no-op dismiss (kept simple)
-                                },
+                                onPressed: () {},
                                 child: Text(l10n.t('dismiss')),
                               ),
                             ],
