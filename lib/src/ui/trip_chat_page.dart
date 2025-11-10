@@ -115,7 +115,7 @@ class _TripChatViewState extends ConsumerState<_TripChatView> {
           final typing = async.valueOrNull?.typingUsers ?? const <String>{};
           final messageCount = async.valueOrNull?.messages.length ?? 0;
 
-          if (messageCount > _previousMessageCount) {
+          if (messageCount > _previousMessageCount || typing.isNotEmpty) {
             _previousMessageCount = messageCount;
             _scrollToBottom();
           }
