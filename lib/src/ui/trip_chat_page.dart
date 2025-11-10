@@ -55,6 +55,7 @@ class _TripChatViewState extends ConsumerState<_TripChatView> {
   Timer? _typingTimer;
   bool _isTyping = false;
   int _previousMessageCount = 0;
+  bool _showJumpButton = false;
 
   void _handleTextChanged() {
     final repo = ref.read(chatRepositoryProvider);
@@ -73,6 +74,13 @@ class _TripChatViewState extends ConsumerState<_TripChatView> {
     });
   }
 
+  bool _isAtBottom() {
+    if (!_scrollCtrl.hasClients) return true;
+    final maxScroll = _scrollCtrl.position.maxScrollExtent;
+    final currentScroll = _scrollCtrl.offset;
+    return currentScroll >= (maxScroll - 50);
+  }
+
   void _scrollToBottom() {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       if (_scrollCtrl.hasClients) {
@@ -81,6 +89,19 @@ class _TripChatViewState extends ConsumerState<_TripChatView> {
           duration: const Duration(milliseconds: 300),
           curve: Curves.easeOut,
         );
+        if (mounted) {
+          setState(() => _showJumpButton = false);
+        }
+      }
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollCtrl.addListener(() {
+      if (mounted) {
+        setState(() => _showJumpButton = !_isAtBottom());
       }
     });
   }
@@ -114,10 +135,21 @@ class _TripChatViewState extends ConsumerState<_TripChatView> {
           final presence = async.valueOrNull?.presenceCount ?? 0;
           final typing = async.valueOrNull?.typingUsers ?? const <String>{};
           final messageCount = async.valueOrNull?.messages.length ?? 0;
+          final me = ref.read(chatConfigProvider).username;
+          final lastMessage = async.valueOrNull?.messages.lastOrNull;
+          final isLastMessageFromMe = lastMessage?.username == me;
 
           if (messageCount > _previousMessageCount || typing.isNotEmpty) {
             _previousMessageCount = messageCount;
-            _scrollToBottom();
+
+            if (isLastMessageFromMe || _isAtBottom()) {
+              _scrollToBottom();
+            } else {
+              if (messageCount > _previousMessageCount &&
+                  !isLastMessageFromMe) {
+                setState(() => _showJumpButton = true);
+              }
+            }
           }
 
           String? typingText;
@@ -168,138 +200,163 @@ class _TripChatViewState extends ConsumerState<_TripChatView> {
                     (e, _) =>
                         Center(child: Text('${l10n.t('error_prefix')}$e')),
                 data:
-                    (data) => Column(
+                    (data) => Stack(
                       children: [
-                        if (data.error != null)
-                          MaterialBanner(
-                            content: Text(
-                              '${l10n.t('error_prefix')}${data.error!}',
-                            ),
-                            actions: [
-                              TextButton(
-                                onPressed: () {},
-                                child: Text(l10n.t('dismiss')),
-                              ),
-                            ],
-                          ),
-                        Expanded(
-                          child: ListView.builder(
-                            controller: _scrollCtrl,
-                            itemCount:
-                                data.messages.length +
-                                (typingText != null ? 1 : 0),
-                            itemBuilder: (_, i) {
-                              final totalItems =
-                                  data.messages.length +
-                                  (typingText != null ? 1 : 0);
-
-                              if (i == totalItems - 1 && typingText != null) {
-                                return TypingIndicatorBubble(
-                                  typingText: typingText,
-                                );
-                              }
-
-                              final m = data.messages[i];
-                              final me = ref.read(chatConfigProvider).username;
-                              final isMe = m.username == me;
-                              final deliveryStatus =
-                                  data.deliveryByClientId[m.clientId];
-                              final showDateHeader = shouldShowDateHeader(
-                                i,
-                                data.messages,
-                              );
-
-                              return Column(
-                                key: ValueKey(
-                                  '${m.clientId}_${deliveryStatus ?? "none"}',
+                        Column(
+                          children: [
+                            if (data.error != null)
+                              MaterialBanner(
+                                content: Text(
+                                  '${l10n.t('error_prefix')}${data.error!}',
                                 ),
-                                children: [
-                                  if (showDateHeader)
-                                    DateHeader(
-                                      text: m.createdAt.formatDateHeader(),
-                                    ),
-                                  ChatMessageBubble(
-                                    message: m,
-                                    isMe: isMe,
-                                    deliveryStatus: deliveryStatus,
+                                actions: [
+                                  TextButton(
+                                    onPressed: () {},
+                                    child: Text(l10n.t('dismiss')),
                                   ),
                                 ],
-                              );
-                            },
-                          ),
-                        ),
-                        SafeArea(
-                          top: false,
-                          child: Container(
-                            color:
-                                ChatThemeProvider.of(ctx).inputBackgroundColor,
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  child: Padding(
-                                    padding: const EdgeInsets.fromLTRB(
-                                      12,
-                                      8,
-                                      8,
-                                      12,
+                              ),
+                            Expanded(
+                              child: ListView.builder(
+                                controller: _scrollCtrl,
+                                itemCount:
+                                    data.messages.length +
+                                    (typingText != null ? 1 : 0),
+                                itemBuilder: (_, i) {
+                                  final totalItems =
+                                      data.messages.length +
+                                      (typingText != null ? 1 : 0);
+
+                                  if (i == totalItems - 1 &&
+                                      typingText != null) {
+                                    return TypingIndicatorBubble(
+                                      typingText: typingText,
+                                    );
+                                  }
+
+                                  final m = data.messages[i];
+                                  final isMe = m.username == me;
+                                  final deliveryStatus =
+                                      data.deliveryByClientId[m.clientId];
+                                  final showDateHeader = shouldShowDateHeader(
+                                    i,
+                                    data.messages,
+                                  );
+
+                                  return Column(
+                                    key: ValueKey(
+                                      '${m.clientId}_${deliveryStatus ?? "none"}',
                                     ),
-                                    child: TextField(
-                                      controller: _ctrl,
-                                      decoration: InputDecoration(
-                                        hintText: l10n.t('hint_message'),
-                                        border: const OutlineInputBorder(),
-                                        isDense: true,
+                                    children: [
+                                      if (showDateHeader)
+                                        DateHeader(
+                                          text: m.createdAt.formatDateHeader(),
+                                        ),
+                                      ChatMessageBubble(
+                                        message: m,
+                                        isMe: isMe,
+                                        deliveryStatus: deliveryStatus,
                                       ),
-                                      onChanged: (_) => _handleTextChanged(),
+                                    ],
+                                  );
+                                },
+                              ),
+                            ),
+                            SafeArea(
+                              top: false,
+                              child: Container(
+                                color:
+                                    ChatThemeProvider.of(
+                                      ctx,
+                                    ).inputBackgroundColor,
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                      child: Padding(
+                                        padding: const EdgeInsets.fromLTRB(
+                                          12,
+                                          8,
+                                          8,
+                                          12,
+                                        ),
+                                        child: TextField(
+                                          controller: _ctrl,
+                                          decoration: InputDecoration(
+                                            hintText: l10n.t('hint_message'),
+                                            border: const OutlineInputBorder(),
+                                            isDense: true,
+                                          ),
+                                          onChanged:
+                                              (_) => _handleTextChanged(),
+                                        ),
+                                      ),
                                     ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                    right: 12,
-                                    bottom: 12,
-                                  ),
-                                  child: IconButton(
-                                    icon: Icon(
-                                      Icons.send,
-                                      color:
-                                          _ctrl.text.trim().isEmpty
-                                              ? Theme.of(ctx)
-                                                  .colorScheme
-                                                  .onSurface
-                                                  .withValues(alpha: 0.38)
-                                              : ChatThemeProvider.of(
-                                                    ctx,
-                                                  ).sendButtonColor ??
-                                                  Theme.of(
-                                                    ctx,
-                                                  ).colorScheme.primary,
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                        right: 12,
+                                        bottom: 12,
+                                      ),
+                                      child: IconButton(
+                                        icon: Icon(
+                                          Icons.send,
+                                          color:
+                                              _ctrl.text.trim().isEmpty
+                                                  ? Theme.of(ctx)
+                                                      .colorScheme
+                                                      .onSurface
+                                                      .withValues(
+                                                        alpha: 0.38,
+                                                      )
+                                                  : ChatThemeProvider.of(
+                                                        ctx,
+                                                      ).sendButtonColor ??
+                                                      Theme.of(
+                                                        ctx,
+                                                      ).colorScheme.primary,
+                                        ),
+                                        onPressed: () async {
+                                          final txt = _ctrl.text.trim();
+                                          if (txt.isEmpty) return;
+
+                                          _typingTimer?.cancel();
+                                          if (_isTyping) {
+                                            _isTyping = false;
+                                            ref
+                                                .read(
+                                                  chatRepositoryProvider,
+                                                )
+                                                .typingStop();
+                                          }
+
+                                          final clientId =
+                                              UuidGenerator.generate();
+                                          await ref
+                                              .read(
+                                                chatControllerProvider.notifier,
+                                              )
+                                              .send(clientId, txt);
+                                          _ctrl.clear();
+                                          setState(() {});
+                                        },
+                                      ),
                                     ),
-                                    onPressed: () async {
-                                      final txt = _ctrl.text.trim();
-                                      if (txt.isEmpty) return;
-
-                                      _typingTimer?.cancel();
-                                      if (_isTyping) {
-                                        _isTyping = false;
-                                        ref
-                                            .read(chatRepositoryProvider)
-                                            .typingStop();
-                                      }
-
-                                      final clientId = UuidGenerator.generate();
-                                      await ref
-                                          .read(chatControllerProvider.notifier)
-                                          .send(clientId, txt);
-                                      _ctrl.clear();
-                                      setState(() {});
-                                    },
-                                  ),
+                                  ],
                                 ),
-                              ],
+                              ),
+                            ),
+                          ],
+                        ),
+                        if (_showJumpButton)
+                          Positioned(
+                            bottom: 200,
+                            right: 1,
+                            child: IconButton(
+                              onPressed: _scrollToBottom,
+                              icon: const Icon(
+                                Icons.arrow_downward,
+                              ),
                             ),
                           ),
-                        ),
                       ],
                     ),
               ),
