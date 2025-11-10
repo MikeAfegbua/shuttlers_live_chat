@@ -58,7 +58,7 @@ class ChatRepository {
     unawaited(_fetchAndEmitUnreadCount());
 
     _unreadCountTimer = Timer.periodic(
-      const Duration(minutes: 1),
+      const Duration(seconds: 5),
       (_) => _fetchAndEmitUnreadCount(),
     );
   }

@@ -51,8 +51,10 @@ class _TripChatView extends ConsumerStatefulWidget {
 
 class _TripChatViewState extends ConsumerState<_TripChatView> {
   final TextEditingController _ctrl = TextEditingController();
+  final ScrollController _scrollCtrl = ScrollController();
   Timer? _typingTimer;
   bool _isTyping = false;
+  int _previousMessageCount = 0;
 
   void _handleTextChanged() {
     final repo = ref.read(chatRepositoryProvider);
@@ -71,10 +73,23 @@ class _TripChatViewState extends ConsumerState<_TripChatView> {
     });
   }
 
+  void _scrollToBottom() {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      if (_scrollCtrl.hasClients) {
+        await _scrollCtrl.animateTo(
+          _scrollCtrl.position.maxScrollExtent,
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeOut,
+        );
+      }
+    });
+  }
+
   @override
   void dispose() {
     _typingTimer?.cancel();
     _ctrl.dispose();
+    _scrollCtrl.dispose();
     super.dispose();
   }
 
@@ -98,6 +113,12 @@ class _TripChatViewState extends ConsumerState<_TripChatView> {
           final connected = async.valueOrNull?.connected ?? false;
           final presence = async.valueOrNull?.presenceCount ?? 0;
           final typing = async.valueOrNull?.typingUsers ?? const <String>{};
+          final messageCount = async.valueOrNull?.messages.length ?? 0;
+
+          if (messageCount > _previousMessageCount) {
+            _previousMessageCount = messageCount;
+            _scrollToBottom();
+          }
 
           String? typingText;
           if (typing.isNotEmpty) {
@@ -163,6 +184,7 @@ class _TripChatViewState extends ConsumerState<_TripChatView> {
                           ),
                         Expanded(
                           child: ListView.builder(
+                            controller: _scrollCtrl,
                             itemCount:
                                 data.messages.length +
                                 (typingText != null ? 1 : 0),
