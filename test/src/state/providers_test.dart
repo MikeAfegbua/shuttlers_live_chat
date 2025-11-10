@@ -194,7 +194,7 @@ void main() {
 
           addTearDown(overriddenContainer.dispose);
 
-          // The controller should be available as a notifier
+          
           final notifier = overriddenContainer.read(
             chatControllerProvider.notifier,
           );
@@ -215,14 +215,14 @@ void main() {
           ],
         );
 
-        // Read the provider to initialize it
+        
         final notifier = overriddenContainer.read(
           chatControllerProvider.notifier,
         );
         expect(notifier, isA<ChatController>());
 
-        // Should not throw when disposing
-        expect(() => overriddenContainer.dispose(), returnsNormally);
+        
+        expect(overriddenContainer.dispose, returnsNormally);
       });
     });
 
@@ -242,11 +242,11 @@ void main() {
 
         addTearDown(overriddenContainer.dispose);
 
-        // Repository should depend on config
+        
         final repository = overriddenContainer.read(chatRepositoryProvider);
         expect(repository.config, equals(config));
 
-        // Controller should depend on repository
+        
         final notifier = overriddenContainer.read(
           chatControllerProvider.notifier,
         );
@@ -266,12 +266,12 @@ void main() {
           ],
         );
 
-        // Initialize the repository
+        
         final repository = overriddenContainer.read(chatRepositoryProvider);
         expect(repository, isA<ChatRepository>());
 
-        // Should dispose without errors
-        expect(() => overriddenContainer.dispose(), returnsNormally);
+        
+        expect(overriddenContainer.dispose, returnsNormally);
       });
     });
 
@@ -324,7 +324,7 @@ void main() {
         addTearDown(container1.dispose);
         addTearDown(container2.dispose);
 
-        // Each container should have its own state
+        
         expect(container1.read(chatConfigProvider).tripId, 'trip-1');
         expect(container2.read(chatConfigProvider).tripId, 'trip-2');
 

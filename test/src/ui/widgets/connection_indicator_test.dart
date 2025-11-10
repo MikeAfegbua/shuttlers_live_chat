@@ -13,11 +13,9 @@ void main() {
         ),
       );
 
-      // Should show wifi icon
       expect(find.byIcon(Icons.wifi), findsOneWidget);
       expect(find.byIcon(Icons.wifi_off), findsNothing);
 
-      // Should have green color for connected state
       final iconWidget = tester.widget<Icon>(find.byType(Icon));
       expect(iconWidget.icon, equals(Icons.wifi));
       expect(iconWidget.color, equals(Colors.green));
@@ -38,11 +36,9 @@ void main() {
         ),
       );
 
-      // Should show wifi_off icon
       expect(find.byIcon(Icons.wifi_off), findsOneWidget);
       expect(find.byIcon(Icons.wifi), findsNothing);
 
-      // Should have error color for disconnected state
       final iconWidget = tester.widget<Icon>(find.byType(Icon));
       expect(iconWidget.icon, equals(Icons.wifi_off));
       expect(iconWidget.color, equals(Colors.red));
@@ -63,7 +59,6 @@ void main() {
     });
 
     testWidgets('renders with different themes', (WidgetTester tester) async {
-      // Test with dark theme
       await tester.pumpWidget(
         MaterialApp(
           theme: ThemeData.dark().copyWith(
@@ -90,12 +85,11 @@ void main() {
         ),
       );
 
-      // Should have Icon widget which is inherently accessible
       expect(find.byType(Icon), findsOneWidget);
     });
 
     testWidgets('handles state changes', (WidgetTester tester) async {
-      bool isConnected = true;
+      var isConnected = true;
 
       await tester.pumpWidget(
         MaterialApp(
@@ -121,14 +115,11 @@ void main() {
         ),
       );
 
-      // Initially connected
       expect(find.byIcon(Icons.wifi), findsOneWidget);
 
-      // Tap to toggle
       await tester.tap(find.text('Toggle'));
       await tester.pumpAndSettle();
 
-      // Now disconnected
       expect(find.byIcon(Icons.wifi_off), findsOneWidget);
       expect(find.byIcon(Icons.wifi), findsNothing);
     });

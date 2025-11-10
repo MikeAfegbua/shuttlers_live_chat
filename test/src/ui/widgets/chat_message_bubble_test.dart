@@ -31,13 +31,10 @@ void main() {
         ),
       );
 
-      // Should find the message text
       expect(find.text('Hello world!'), findsOneWidget);
 
-      // Should show username for other users
       expect(find.text('TestUser'), findsOneWidget);
 
-      // Should show formatted time
       expect(find.text('10:30 AM'), findsOneWidget);
     });
 
@@ -55,13 +52,10 @@ void main() {
         ),
       );
 
-      // Should find the message text
       expect(find.text('Hello world!'), findsOneWidget);
 
-      // Should NOT show username for current user
       expect(find.text('TestUser'), findsNothing);
 
-      // Should show formatted time
       expect(find.text('10:30 AM'), findsOneWidget);
     });
 
@@ -80,10 +74,8 @@ void main() {
         ),
       );
 
-      // Should find the message
       expect(find.text('Hello world!'), findsOneWidget);
 
-      // Should have Opacity widget with 0.5 opacity
       final opacityWidget = tester.widget<Opacity>(find.byType(Opacity));
       expect(opacityWidget.opacity, equals(0.5));
     });
@@ -103,7 +95,6 @@ void main() {
         ),
       );
 
-      // Should have Opacity widget with 0.5 opacity
       final opacityWidget = tester.widget<Opacity>(find.byType(Opacity));
       expect(opacityWidget.opacity, equals(0.5));
     });
@@ -123,7 +114,6 @@ void main() {
         ),
       );
 
-      // Should have Opacity widget with 1.0 opacity
       final opacityWidget = tester.widget<Opacity>(find.byType(Opacity));
       expect(opacityWidget.opacity, equals(1.0));
     });
@@ -142,7 +132,6 @@ void main() {
         ),
       );
 
-      // Should have Opacity widget with 1.0 opacity
       final opacityWidget = tester.widget<Opacity>(find.byType(Opacity));
       expect(opacityWidget.opacity, equals(1.0));
     });
@@ -209,7 +198,7 @@ void main() {
         equals(const EdgeInsets.symmetric(horizontal: 12, vertical: 10)),
       );
 
-      final decoration = containerWidget.decoration as BoxDecoration;
+      final decoration = containerWidget.decoration! as BoxDecoration;
       expect(decoration.borderRadius, equals(BorderRadius.circular(12)));
     });
 
@@ -233,20 +222,17 @@ void main() {
         ),
       );
 
-      // Should find the long text
       expect(
         find.textContaining('This is a very long message'),
         findsOneWidget,
       );
 
-      // Should have Flexible widget to handle wrapping
       expect(find.byType(Flexible), findsOneWidget);
     });
 
     testWidgets('shows different styling for current user vs others', (
       WidgetTester tester,
     ) async {
-      // Test current user styling
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -268,10 +254,8 @@ void main() {
         ),
       );
 
-      // Both messages should be rendered
       expect(find.text('Hello world!'), findsNWidgets(2));
 
-      // Only the other user's message should show username
       expect(find.text('TestUser'), findsOneWidget);
     });
   });

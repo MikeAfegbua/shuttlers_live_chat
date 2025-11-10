@@ -31,13 +31,13 @@
             <td class="headerValue">lcov.info</td>
             <td></td>
             <td class="headerItem">Lines:</td>
-            <td class="headerCovTableEntryLo">48.1&nbsp;%</td>
+            <td class="headerCovTableEntryLo">0.0&nbsp;%</td>
             <td class="headerCovTableEntry">52</td>
-            <td class="headerCovTableEntry">25</td>
+            <td class="headerCovTableEntry">0</td>
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2025-11-04 12:02:06</td>
+            <td class="headerValue">2025-11-04 18:06:50</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryHi">-</td>
@@ -71,11 +71,11 @@
 <span id="L9"><span class="lineNum">       9</span>              : import 'package:shuttlers_live_chat/src/realtime/chat_ws_client.dart';</span>
 <span id="L10"><span class="lineNum">      10</span>              : </span>
 <span id="L11"><span class="lineNum">      11</span>              : class ChatRepository {</span>
-<span id="L12"><span class="lineNum">      12</span> <span class="tlaGNC">           2 :   ChatRepository({required this.config})</span></span>
-<span id="L13"><span class="lineNum">      13</span> <span class="tlaGNC">           2 :     : _api = ChatApiClient(config: config),</span></span>
-<span id="L14"><span class="lineNum">      14</span> <span class="tlaGNC">           2 :       _ws = ChatWsClient(config),</span></span>
-<span id="L15"><span class="lineNum">      15</span> <span class="tlaGNC">           2 :       _outbox = Outbox() {</span></span>
-<span id="L16"><span class="lineNum">      16</span> <span class="tlaGNC">           4 :     unawaited(_init());</span></span>
+<span id="L12"><span class="lineNum">      12</span> <span class="tlaUNC">           0 :   ChatRepository({required this.config})</span></span>
+<span id="L13"><span class="lineNum">      13</span> <span class="tlaUNC">           0 :     : _api = ChatApiClient(config: config),</span></span>
+<span id="L14"><span class="lineNum">      14</span> <span class="tlaUNC">           0 :       _ws = ChatWsClient(config),</span></span>
+<span id="L15"><span class="lineNum">      15</span> <span class="tlaUNC">           0 :       _outbox = Outbox() {</span></span>
+<span id="L16"><span class="lineNum">      16</span> <span class="tlaUNC">           0 :     unawaited(_init());</span></span>
 <span id="L17"><span class="lineNum">      17</span>              :   }</span>
 <span id="L18"><span class="lineNum">      18</span>              : </span>
 <span id="L19"><span class="lineNum">      19</span>              :   final ShuttlersChatConfig config;</span>
@@ -83,19 +83,19 @@
 <span id="L21"><span class="lineNum">      21</span>              :   final ChatWsClient _ws;</span>
 <span id="L22"><span class="lineNum">      22</span>              :   final Outbox _outbox;</span>
 <span id="L23"><span class="lineNum">      23</span>              : </span>
-<span id="L24"><span class="lineNum">      24</span> <span class="tlaGNC">           3 :   Stream&lt;ChatMessage&gt; get onMessageCreated =&gt; _ws.onMessageCreated;</span></span>
-<span id="L25"><span class="lineNum">      25</span> <span class="tlaGNC">           6 :   Stream&lt;bool&gt; get onConnection =&gt; _ws.onConnection;</span></span>
-<span id="L26"><span class="lineNum">      26</span> <span class="tlaGNC">           6 :   Stream&lt;Map&lt;String, String&gt;&gt; get onTypingStart =&gt; _ws.onTypingStart;</span></span>
-<span id="L27"><span class="lineNum">      27</span> <span class="tlaGNC">           6 :   Stream&lt;Map&lt;String, String&gt;&gt; get onTypingStop =&gt; _ws.onTypingStop;</span></span>
-<span id="L28"><span class="lineNum">      28</span> <span class="tlaGNC">           6 :   Stream&lt;int&gt; get onPresenceCount =&gt; _ws.onPresenceCount;</span></span>
-<span id="L29"><span class="lineNum">      29</span> <span class="tlaGNC">           6 :   Stream&lt;Map&lt;String, dynamic&gt;&gt; get onAck =&gt; _ws.onAck;</span></span>
+<span id="L24"><span class="lineNum">      24</span> <span class="tlaUNC">           0 :   Stream&lt;ChatMessage&gt; get onMessageCreated =&gt; _ws.onMessageCreated;</span></span>
+<span id="L25"><span class="lineNum">      25</span> <span class="tlaUNC">           0 :   Stream&lt;bool&gt; get onConnection =&gt; _ws.onConnection;</span></span>
+<span id="L26"><span class="lineNum">      26</span> <span class="tlaUNC">           0 :   Stream&lt;Map&lt;String, String&gt;&gt; get onTypingStart =&gt; _ws.onTypingStart;</span></span>
+<span id="L27"><span class="lineNum">      27</span> <span class="tlaUNC">           0 :   Stream&lt;Map&lt;String, String&gt;&gt; get onTypingStop =&gt; _ws.onTypingStop;</span></span>
+<span id="L28"><span class="lineNum">      28</span> <span class="tlaUNC">           0 :   Stream&lt;int&gt; get onPresenceCount =&gt; _ws.onPresenceCount;</span></span>
+<span id="L29"><span class="lineNum">      29</span> <span class="tlaUNC">           0 :   Stream&lt;Map&lt;String, dynamic&gt;&gt; get onAck =&gt; _ws.onAck;</span></span>
 <span id="L30"><span class="lineNum">      30</span>              : </span>
 <span id="L31"><span class="lineNum">      31</span>              :   StreamSubscription&lt;dynamic&gt;? _connSub;</span>
 <span id="L32"><span class="lineNum">      32</span>              :   StreamSubscription&lt;dynamic&gt;? _netSub;</span>
 <span id="L33"><span class="lineNum">      33</span>              :   bool _isOnline = true;</span>
 <span id="L34"><span class="lineNum">      34</span>              : </span>
-<span id="L35"><span class="lineNum">      35</span> <span class="tlaGNC">           2 :   Future&lt;void&gt; _init() async {</span></span>
-<span id="L36"><span class="lineNum">      36</span> <span class="tlaGNC">           4 :     await _outbox.init();</span></span>
+<span id="L35"><span class="lineNum">      35</span> <span class="tlaUNC">           0 :   Future&lt;void&gt; _init() async {</span></span>
+<span id="L36"><span class="lineNum">      36</span> <span class="tlaUNC">           0 :     await _outbox.init();</span></span>
 <span id="L37"><span class="lineNum">      37</span>              : </span>
 <span id="L38"><span class="lineNum">      38</span> <span class="tlaUNC">           0 :     _netSub = Connectivity().onConnectivityChanged.listen((result) async {</span></span>
 <span id="L39"><span class="lineNum">      39</span> <span class="tlaUNC">           0 :       _isOnline =</span></span>
@@ -111,18 +111,18 @@
 <span id="L49"><span class="lineNum">      49</span>              :     });</span>
 <span id="L50"><span class="lineNum">      50</span>              :   }</span>
 <span id="L51"><span class="lineNum">      51</span>              : </span>
-<span id="L52"><span class="lineNum">      52</span> <span class="tlaGNC">           6 :   Future&lt;void&gt; connect() =&gt; _ws.connect();</span></span>
+<span id="L52"><span class="lineNum">      52</span> <span class="tlaUNC">           0 :   Future&lt;void&gt; connect() =&gt; _ws.connect();</span></span>
 <span id="L53"><span class="lineNum">      53</span>              : </span>
-<span id="L54"><span class="lineNum">      54</span> <span class="tlaGNC">           2 :   Future&lt;List&lt;ChatMessage&gt;&gt; loadInitial({int limit = 10}) async {</span></span>
-<span id="L55"><span class="lineNum">      55</span> <span class="tlaGNC">           4 :     final page = await _api.listMessages(limit: limit);</span></span>
+<span id="L54"><span class="lineNum">      54</span> <span class="tlaUNC">           0 :   Future&lt;List&lt;ChatMessage&gt;&gt; loadInitial({int limit = 10}) async {</span></span>
+<span id="L55"><span class="lineNum">      55</span> <span class="tlaUNC">           0 :     final page = await _api.listMessages(limit: limit);</span></span>
 <span id="L56"><span class="lineNum">      56</span> <span class="tlaUNC">           0 :     return page.messages;</span></span>
 <span id="L57"><span class="lineNum">      57</span>              :   }</span>
 <span id="L58"><span class="lineNum">      58</span>              : </span>
-<span id="L59"><span class="lineNum">      59</span> <span class="tlaGNC">           1 :   Future&lt;ChatMessage?&gt; sendText({</span></span>
+<span id="L59"><span class="lineNum">      59</span> <span class="tlaUNC">           0 :   Future&lt;ChatMessage?&gt; sendText({</span></span>
 <span id="L60"><span class="lineNum">      60</span>              :     required String clientId,</span>
 <span id="L61"><span class="lineNum">      61</span>              :     required String text,</span>
 <span id="L62"><span class="lineNum">      62</span>              :   }) async {</span>
-<span id="L63"><span class="lineNum">      63</span> <span class="tlaGNC">           3 :     await _outbox.add(OutboxItem(clientId: clientId, text: text));</span></span>
+<span id="L63"><span class="lineNum">      63</span> <span class="tlaUNC">           0 :     await _outbox.add(OutboxItem(clientId: clientId, text: text));</span></span>
 <span id="L64"><span class="lineNum">      64</span> <span class="tlaUNC">           0 :     return _tryDrainSingle(clientId);</span></span>
 <span id="L65"><span class="lineNum">      65</span>              :   }</span>
 <span id="L66"><span class="lineNum">      66</span>              : </span>
@@ -157,14 +157,14 @@
 <span id="L95"><span class="lineNum">      95</span>              :     }</span>
 <span id="L96"><span class="lineNum">      96</span>              :   }</span>
 <span id="L97"><span class="lineNum">      97</span>              : </span>
-<span id="L98"><span class="lineNum">      98</span> <span class="tlaGNC">           3 :   void typingStart() =&gt; _ws.typingStart();</span></span>
-<span id="L99"><span class="lineNum">      99</span> <span class="tlaGNC">           3 :   void typingStop() =&gt; _ws.typingStop();</span></span>
+<span id="L98"><span class="lineNum">      98</span> <span class="tlaUNC">           0 :   void typingStart() =&gt; _ws.typingStart();</span></span>
+<span id="L99"><span class="lineNum">      99</span> <span class="tlaUNC">           0 :   void typingStop() =&gt; _ws.typingStop();</span></span>
 <span id="L100"><span class="lineNum">     100</span>              : </span>
-<span id="L101"><span class="lineNum">     101</span> <span class="tlaGNC">           2 :   Future&lt;void&gt; dispose() async {</span></span>
-<span id="L102"><span class="lineNum">     102</span> <span class="tlaGNC">           4 :     _api.close();</span></span>
-<span id="L103"><span class="lineNum">     103</span> <span class="tlaGNC">           4 :     await _ws.dispose();</span></span>
-<span id="L104"><span class="lineNum">     104</span> <span class="tlaGNC">           2 :     await _connSub?.cancel();</span></span>
-<span id="L105"><span class="lineNum">     105</span> <span class="tlaGNC">           2 :     await _netSub?.cancel();</span></span>
+<span id="L101"><span class="lineNum">     101</span> <span class="tlaUNC">           0 :   Future&lt;void&gt; dispose() async {</span></span>
+<span id="L102"><span class="lineNum">     102</span> <span class="tlaUNC">           0 :     _api.close();</span></span>
+<span id="L103"><span class="lineNum">     103</span> <span class="tlaUNC">           0 :     await _ws.dispose();</span></span>
+<span id="L104"><span class="lineNum">     104</span> <span class="tlaUNC">           0 :     await _connSub?.cancel();</span></span>
+<span id="L105"><span class="lineNum">     105</span> <span class="tlaUNC">           0 :     await _netSub?.cancel();</span></span>
 <span id="L106"><span class="lineNum">     106</span>              :   }</span>
 <span id="L107"><span class="lineNum">     107</span>              : }</span>
         </pre>

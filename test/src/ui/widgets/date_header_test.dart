@@ -25,10 +25,10 @@ void main() {
         ),
       );
 
-      // Should have DateHeader widget
+      
       expect(find.byType(DateHeader), findsOneWidget);
 
-      // Should have Container with correct styling
+      
       final containerWidgets = tester.widgetList<Container>(
         find.byType(Container),
       );
@@ -77,7 +77,7 @@ void main() {
         ),
       );
 
-      // Should still render the Text widget, even if empty
+      
       expect(find.byType(Text), findsOneWidget);
     });
 
@@ -131,10 +131,10 @@ void main() {
         ),
       );
 
-      // Should have Text widget which is accessible by default
+      
       expect(find.byType(Text), findsOneWidget);
 
-      // Text should be findable by text content
+      
       expect(find.text('Today'), findsOneWidget);
     });
 
@@ -176,7 +176,7 @@ void main() {
         ),
       );
 
-      // All should use the same padding and styling
+      
       final containers = tester.widgetList<Container>(find.byType(Container));
       expect(containers.length, equals(3));
 

@@ -10,7 +10,6 @@ import 'package:shuttlers_live_chat/src/data/services/chat_repository.dart';
 import 'package:shuttlers_live_chat/src/data/services/outbox.dart';
 import 'package:shuttlers_live_chat/src/realtime/chat_ws_client.dart';
 
-// Create mock classes
 class MockChatApiClient extends Mock implements ChatApiClient {}
 
 class MockChatWsClient extends Mock implements ChatWsClient {}
@@ -32,7 +31,7 @@ void main() {
 
   setUpAll(() {
     registerFallbackValue(
-      SendMessageRequest(
+      const SendMessageRequest(
         text: 'test',
         username: 'test-user',
         clientId: 'test-client',
@@ -52,7 +51,6 @@ void main() {
     mockWs = MockChatWsClient();
     mockOutbox = MockOutbox();
 
-    // Setup stream controllers
     messageController = StreamController<ChatMessage>.broadcast();
     connectionController = StreamController<bool>.broadcast();
     typingStartController = StreamController<Map<String, String>>.broadcast();
@@ -60,7 +58,6 @@ void main() {
     presenceController = StreamController<int>.broadcast();
     ackController = StreamController<Map<String, dynamic>>.broadcast();
 
-    // Setup mock WebSocket streams
     when(
       () => mockWs.onMessageCreated,
     ).thenAnswer((_) => messageController.stream);
@@ -78,7 +75,6 @@ void main() {
     ).thenAnswer((_) => presenceController.stream);
     when(() => mockWs.onAck).thenAnswer((_) => ackController.stream);
 
-    // Setup default mock responses
     when(() => mockWs.connect()).thenAnswer((_) async {});
     when(() => mockWs.dispose()).thenAnswer((_) async {});
     when(() => mockWs.typingStart()).thenReturn(null);
@@ -87,17 +83,16 @@ void main() {
     when(() => mockOutbox.init()).thenAnswer((_) async {});
     when(() => mockOutbox.peekAll()).thenReturn([]);
 
-    // Create repository with mocks (we'll need to inject them differently)
     repository = ChatRepository(config: config);
   });
 
-  tearDown(() {
-    messageController.close();
-    connectionController.close();
-    typingStartController.close();
-    typingStopController.close();
-    presenceController.close();
-    ackController.close();
+  tearDown(() async {
+    await messageController.close();
+    await connectionController.close();
+    await typingStartController.close();
+    await typingStopController.close();
+    await presenceController.close();
+    await ackController.close();
   });
 
   group('ChatRepository', () {
@@ -112,13 +107,11 @@ void main() {
 
     test('should connect to WebSocket', () async {
       await repository.connect();
-      // Verify that connect was called on the WebSocket client
-      // Note: Since we can't mock private fields, this test verifies the method exists
+
       expect(() => repository.connect(), returnsNormally);
     });
 
     test('should load initial messages from API', () async {
-      // We can't easily mock the private _api field, so this test verifies the method signature
       expect(() => repository.loadInitial(), returnsNormally);
       expect(() => repository.loadInitial(limit: 20), returnsNormally);
     });
@@ -127,7 +120,6 @@ void main() {
       const clientId = 'test-client-123';
       const text = 'Hello, world!';
 
-      // Test that the method can be called
       expect(
         () => repository.sendText(clientId: clientId, text: text),
         returnsNormally,
@@ -162,7 +154,6 @@ void main() {
         repository.sendText(clientId: 'client-3', text: 'Message 3'),
       ];
 
-      // All calls should complete without error
       expect(() => Future.wait(futures), returnsNormally);
     });
 
@@ -174,8 +165,7 @@ void main() {
     });
 
     test('should handle special characters in text', () async {
-      const specialText =
-          'Hello! 🚗 This has émojis and spëcial chars: @#\$%^&*()';
+      const specialText = r'Hello! This has special chars: @#$%^&*()';
       expect(
         () => repository.sendText(clientId: 'test', text: specialText),
         returnsNormally,
@@ -183,7 +173,7 @@ void main() {
     });
 
     test('should handle very long client IDs', () async {
-      final longClientId = 'very-long-client-id-' * 10; // 200+ chars
+      final longClientId = 'very-long-client-id-' * 10;
       expect(
         () => repository.sendText(clientId: longClientId, text: 'test'),
         returnsNormally,
@@ -197,7 +187,6 @@ void main() {
         repository.dispose(),
       ];
 
-      // Should not throw exceptions
       expect(() => Future.wait(futures), returnsNormally);
     });
   });

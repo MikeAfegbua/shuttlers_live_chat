@@ -72,7 +72,6 @@ void main() {
       final rowWidget = tester.widget<Row>(find.byType(Row));
       expect(rowWidget.mainAxisSize, equals(MainAxisSize.min));
 
-      // Should have Text, SizedBox, and SizedBox (containing CircularProgressIndicator) as children
       final rowChildren = rowWidget.children;
       expect(rowChildren.length, equals(3));
       expect(rowChildren[0], isA<Text>());
@@ -120,7 +119,6 @@ void main() {
       );
       expect(progressIndicator.strokeWidth, equals(2));
 
-      // Check the SizedBox containing the progress indicator
       final indicatorContainer = tester.widget<SizedBox>(
         find.ancestor(
           of: find.byType(CircularProgressIndicator),
@@ -163,7 +161,7 @@ void main() {
       );
 
       final containerWidget = tester.widget<Container>(find.byType(Container));
-      final decoration = containerWidget.decoration as BoxDecoration;
+      final decoration = containerWidget.decoration! as BoxDecoration;
       expect(decoration.color, equals(Colors.lightBlue));
     });
 
@@ -202,7 +200,6 @@ void main() {
         ),
       );
 
-      // Should still render the structure
       expect(find.byType(Text), findsOneWidget);
       expect(find.byType(CircularProgressIndicator), findsOneWidget);
     });
@@ -264,7 +261,6 @@ void main() {
         ),
       );
 
-      // Should have accessible text and progress indicator
       expect(find.text('John is typing...'), findsOneWidget);
       expect(find.byType(CircularProgressIndicator), findsOneWidget);
     });
@@ -282,18 +278,15 @@ void main() {
 
       expect(find.byType(CircularProgressIndicator), findsOneWidget);
 
-      // The progress indicator should be animating by default
-      // We can test that it exists and has the right properties
       final progressIndicator = tester.widget<CircularProgressIndicator>(
         find.byType(CircularProgressIndicator),
       );
-      expect(progressIndicator.value, isNull); // Indeterminate progress
+      expect(progressIndicator.value, isNull);
     });
 
     testWidgets('maintains visual consistency across different themes', (
       WidgetTester tester,
     ) async {
-      // Test with dark theme
       await tester.pumpWidget(
         MaterialApp(
           theme: ThemeData.dark(),
@@ -308,7 +301,6 @@ void main() {
       expect(find.text('Dark theme typing...'), findsOneWidget);
       expect(find.byType(CircularProgressIndicator), findsOneWidget);
 
-      // Test with light theme
       await tester.pumpWidget(
         MaterialApp(
           theme: ThemeData.light(),

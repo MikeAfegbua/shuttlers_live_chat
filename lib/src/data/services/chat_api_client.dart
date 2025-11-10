@@ -5,6 +5,7 @@ import 'package:shuttlers_live_chat/src/chat_config.dart';
 import 'package:shuttlers_live_chat/src/data/models/chat_message.dart';
 import 'package:shuttlers_live_chat/src/data/models/paged_messages_response.dart';
 import 'package:shuttlers_live_chat/src/data/models/send_message_request.dart';
+import 'package:shuttlers_live_chat/src/data/models/unread_count_response.dart';
 
 class ChatApiClient {
   ChatApiClient({required this.config, http.Client? httpClient})
@@ -48,6 +49,19 @@ class ChatApiClient {
       throw Exception('Failed to send message: ${res.statusCode}');
     }
     return ChatMessage.fromJson(json.decode(res.body) as Map<String, dynamic>);
+  }
+
+  Future<UnreadCountResponse> getUnreadCount() async {
+    final uri = Uri.parse(
+      '${config.baseUrl}/trips/${config.tripId}/chat/unread',
+    );
+    final res = await _http.get(uri, headers: _headers);
+    if (res.statusCode != 200) {
+      throw Exception('Failed to fetch unread count: ${res.statusCode}');
+    }
+    return UnreadCountResponse.fromJson(
+      json.decode(res.body) as Map<String, dynamic>,
+    );
   }
 
   void close() => _http.close();

@@ -23,7 +23,7 @@ void main() {
   setUpAll(() {
     registerFallbackValue(
       ShuttlersChatConfig(
-        authToken: 'test-token-123456789', // Needs to be > 10 chars
+        authToken: 'test-token-123456789', 
         tripId: 'test-trip',
         username: 'Test User',
       ),
@@ -39,7 +39,7 @@ void main() {
     presenceController = StreamController<int>.broadcast();
     ackController = StreamController<Map<String, dynamic>>.broadcast();
 
-    // Setup mock streams
+    
     when(
       () => mockRepo.onMessageCreated,
     ).thenAnswer((_) => messageController.stream);
@@ -57,16 +57,16 @@ void main() {
     ).thenAnswer((_) => presenceController.stream);
     when(() => mockRepo.onAck).thenAnswer((_) => ackController.stream);
 
-    // Setup mock config
+    
     when(() => mockRepo.config).thenReturn(
       ShuttlersChatConfig(
-        authToken: 'test-token-123456789', // Needs to be > 10 chars
+        authToken: 'test-token-123456789', 
         tripId: 'test-trip',
         username: 'Test User',
       ),
     );
 
-    // Setup mock methods
+    
     when(() => mockRepo.connect()).thenAnswer((_) async {});
     when(() => mockRepo.loadInitial()).thenAnswer((_) async => []);
     when(() => mockRepo.dispose()).thenAnswer((_) async {});
@@ -90,7 +90,7 @@ void main() {
 
   group('ChatController', () {
     test('should initialize with loading state', () async {
-      // Wait for initial build to complete
+      
       await container.read(chatControllerProvider.future);
 
       verify(() => mockRepo.connect()).called(1);
@@ -125,8 +125,8 @@ void main() {
       final state = await container.read(chatControllerProvider.future);
 
       expect(state.messages.length, 2);
-      expect(state.messages[0].id, '2'); // Earlier message first
-      expect(state.messages[1].id, '1'); // Later message second
+      expect(state.messages[0].id, '2'); 
+      expect(state.messages[1].id, '1'); 
       expect(state.seenClientIds, {'client-1', 'client-2'});
     });
 
@@ -134,7 +134,7 @@ void main() {
       await container.read(chatControllerProvider.future);
 
       connectionController.add(true);
-      // Wait for the stream to be processed
+      
       await Future<void>.delayed(const Duration(milliseconds: 10));
 
       final state = container.read(chatControllerProvider).value!;
@@ -180,11 +180,11 @@ void main() {
     test('should handle typing stop events', () async {
       await container.read(chatControllerProvider.future);
 
-      // Start typing
+      
       typingStartController.add({'username': 'Other User'});
       await Future<void>.delayed(Duration.zero);
 
-      // Stop typing
+      
       typingStopController.add({'username': 'Other User'});
       await Future<void>.delayed(Duration.zero);
 
@@ -227,7 +227,7 @@ void main() {
     test(
       'should update existing message when receiving duplicate clientId',
       () async {
-        // Set up initial message
+        
         final initialMessage = ChatMessage(
           id: 'temp-1',
           clientId: 'client-1',
@@ -243,7 +243,7 @@ void main() {
         ).thenAnswer((_) async => [initialMessage]);
         await container.read(chatControllerProvider.future);
 
-        // Send updated message with same clientId
+        
         final updatedMessage = ChatMessage(
           id: 'real-1',
           clientId: 'client-1',
@@ -267,11 +267,11 @@ void main() {
     test('should remove typing indicator when user sends message', () async {
       await container.read(chatControllerProvider.future);
 
-      // Start typing
+      
       typingStartController.add({'username': 'Other User'});
       await Future<void>.delayed(Duration.zero);
 
-      // Send message from typing user
+      
       final message = ChatMessage(
         id: '1',
         clientId: 'client-1',
@@ -338,7 +338,7 @@ void main() {
       test(
         'should preserve delivery status during optimistic updates',
         () async {
-          // First set up an existing delivery status
+          
           await container.read(chatControllerProvider.future);
           ackController.add({'clientId': 'existing-client', 'status': 'sent'});
           await Future<void>.delayed(Duration.zero);
@@ -367,7 +367,7 @@ void main() {
 
         await container.read(chatControllerProvider.future);
 
-        // Add messages from different users (should track active users)
+        
         final message1 = ChatMessage(
           id: '1',
           clientId: 'client-1',
@@ -394,7 +394,7 @@ void main() {
         await Future<void>.delayed(Duration.zero);
 
         final state = container.read(chatControllerProvider).value!;
-        expect(state.presenceCount, 3); // 2 other users + current user
+        expect(state.presenceCount, 3); 
       },
     );
 
@@ -403,11 +403,11 @@ void main() {
       () async {
         await container.read(chatControllerProvider.future);
 
-        // Send presence event
+        
         presenceController.add(10);
         await Future<void>.delayed(Duration.zero);
 
-        // Add message from new user (should not affect count)
+        
         final message = ChatMessage(
           id: '1',
           clientId: 'client-1',
@@ -425,7 +425,7 @@ void main() {
         expect(
           state.presenceCount,
           10,
-        ); // Should use presence event, not calculated
+        ); 
       },
     );
 

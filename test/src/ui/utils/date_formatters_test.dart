@@ -36,7 +36,7 @@ void main() {
       expect(
         formatted,
         matches(RegExp(r'^[A-Z][a-z]{2} \d{1,2}$')),
-      ); // e.g., "Jan 15"
+      ); 
     });
 
     test('isSameDayAs should return true for same day', () {

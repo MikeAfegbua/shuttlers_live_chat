@@ -27,9 +27,12 @@ class ChatRepository {
   Stream<Map<String, String>> get onTypingStop => _ws.onTypingStop;
   Stream<int> get onPresenceCount => _ws.onPresenceCount;
   Stream<Map<String, dynamic>> get onAck => _ws.onAck;
+  Stream<int> get onUnreadCountChanged => _unreadCountController.stream;
 
   StreamSubscription<dynamic>? _connSub;
   StreamSubscription<dynamic>? _netSub;
+  Timer? _unreadCountTimer;
+  final _unreadCountController = StreamController<int>.broadcast();
   bool _isOnline = true;
 
   Future<void> _init() async {
@@ -47,6 +50,27 @@ class ChatRepository {
     _connSub = _ws.onConnection.listen((connected) async {
       if (connected) await _flushOutbox();
     });
+
+    _startUnreadCountPolling();
+  }
+
+  void _startUnreadCountPolling() {
+    unawaited(_fetchAndEmitUnreadCount());
+
+    _unreadCountTimer = Timer.periodic(
+      const Duration(minutes: 1),
+      (_) => _fetchAndEmitUnreadCount(),
+    );
+  }
+
+  Future<void> _fetchAndEmitUnreadCount() async {
+    if (_unreadCountController.isClosed) return;
+
+    final count = await getUnreadCount();
+
+    if (!_unreadCountController.isClosed) {
+      _unreadCountController.add(count);
+    }
   }
 
   Future<void> connect() => _ws.connect();
@@ -98,8 +122,19 @@ class ChatRepository {
   void typingStart() => _ws.typingStart();
   void typingStop() => _ws.typingStop();
 
+  Future<int> getUnreadCount() async {
+    try {
+      final response = await _api.getUnreadCount();
+      return response.count;
+    } on Exception catch (_) {
+      return 0;
+    }
+  }
+
   Future<void> dispose() async {
+    _unreadCountTimer?.cancel();
     _api.close();
+    await _unreadCountController.close();
     await _ws.dispose();
     await _connSub?.cancel();
     await _netSub?.cancel();

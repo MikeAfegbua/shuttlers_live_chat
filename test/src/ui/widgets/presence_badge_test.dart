@@ -58,7 +58,7 @@ void main() {
         equals(const EdgeInsets.symmetric(horizontal: 8, vertical: 4)),
       );
 
-      final decoration = containerWidget.decoration as BoxDecoration;
+      final decoration = containerWidget.decoration! as BoxDecoration;
       expect(decoration.borderRadius, equals(BorderRadius.circular(12)));
     });
 
@@ -98,7 +98,7 @@ void main() {
       );
 
       final containerWidget = tester.widget<Container>(find.byType(Container));
-      final decoration = containerWidget.decoration as BoxDecoration;
+      final decoration = containerWidget.decoration! as BoxDecoration;
       expect(decoration.color, equals(Colors.purple));
 
       final iconWidget = tester.widget<Icon>(find.byType(Icon));
@@ -117,7 +117,6 @@ void main() {
       final rowWidget = tester.widget<Row>(find.byType(Row));
       expect(rowWidget.mainAxisSize, equals(MainAxisSize.min));
 
-      // Should have Icon, SizedBox, and Text as children
       final rowChildren = rowWidget.children;
       expect(rowChildren.length, equals(3));
       expect(rowChildren[0], isA<Icon>());
@@ -139,7 +138,7 @@ void main() {
       final sizedBoxWidgets = tester.widgetList<SizedBox>(
         find.byType(SizedBox),
       );
-      // Find the SizedBox that's used for spacing (width = 4)
+
       final spacingBox = sizedBoxWidgets.firstWhere((box) => box.width == 4);
       expect(spacingBox.width, equals(4));
     });
@@ -167,7 +166,7 @@ void main() {
     });
 
     testWidgets('handles single digit numbers', (WidgetTester tester) async {
-      for (int i = 0; i <= 9; i++) {
+      for (var i = 0; i <= 9; i++) {
         await tester.pumpWidget(
           MaterialApp(
             home: Scaffold(
@@ -201,7 +200,6 @@ void main() {
         ),
       );
 
-      // Should have accessible icon and text
       expect(find.byType(Icon), findsOneWidget);
       expect(find.byType(Text), findsOneWidget);
       expect(find.text('3'), findsOneWidget);
@@ -250,14 +248,13 @@ void main() {
         ),
       );
 
-      // All should have the same padding and styling
       final containers = tester.widgetList<Container>(find.byType(Container));
       for (final container in containers) {
         expect(
           container.padding,
           equals(const EdgeInsets.symmetric(horizontal: 8, vertical: 4)),
         );
-        final decoration = container.decoration as BoxDecoration;
+        final decoration = container.decoration! as BoxDecoration;
         expect(decoration.borderRadius, equals(BorderRadius.circular(12)));
       }
     });

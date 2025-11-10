@@ -31,13 +31,13 @@
             <td class="headerValue">lcov.info</td>
             <td></td>
             <td class="headerItem">Lines:</td>
-            <td class="headerCovTableEntryLo">0.0&nbsp;%</td>
+            <td class="headerCovTableEntryHi">100.0&nbsp;%</td>
             <td class="headerCovTableEntry">19</td>
-            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntry">19</td>
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2025-11-04 12:02:06</td>
+            <td class="headerValue">2025-11-04 18:06:50</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryHi">-</td>
@@ -64,23 +64,23 @@
 <span id="L2"><span class="lineNum">       2</span>              : import 'package:shuttlers_live_chat/src/core/theme/chat_theme.dart';</span>
 <span id="L3"><span class="lineNum">       3</span>              : </span>
 <span id="L4"><span class="lineNum">       4</span>              : class TypingIndicatorBubble extends StatelessWidget {</span>
-<span id="L5"><span class="lineNum">       5</span> <span class="tlaUNC">           0 :   const TypingIndicatorBubble({</span></span>
+<span id="L5"><span class="lineNum">       5</span> <span class="tlaGNC">           1 :   const TypingIndicatorBubble({</span></span>
 <span id="L6"><span class="lineNum">       6</span>              :     required this.typingText,</span>
 <span id="L7"><span class="lineNum">       7</span>              :     super.key,</span>
 <span id="L8"><span class="lineNum">       8</span>              :   });</span>
 <span id="L9"><span class="lineNum">       9</span>              : </span>
 <span id="L10"><span class="lineNum">      10</span>              :   final String typingText;</span>
 <span id="L11"><span class="lineNum">      11</span>              : </span>
-<span id="L12"><span class="lineNum">      12</span> <span class="tlaUNC">           0 :   @override</span></span>
+<span id="L12"><span class="lineNum">      12</span> <span class="tlaGNC">           1 :   @override</span></span>
 <span id="L13"><span class="lineNum">      13</span>              :   Widget build(BuildContext context) {</span>
-<span id="L14"><span class="lineNum">      14</span> <span class="tlaUNC">           0 :     final theme = Theme.of(context);</span></span>
+<span id="L14"><span class="lineNum">      14</span> <span class="tlaGNC">           1 :     final theme = Theme.of(context);</span></span>
 <span id="L15"><span class="lineNum">      15</span>              :     final chatTheme =</span>
-<span id="L16"><span class="lineNum">      16</span> <span class="tlaUNC">           0 :         theme.extension&lt;ShuttlersChatTheme&gt;() ??</span></span>
-<span id="L17"><span class="lineNum">      17</span> <span class="tlaUNC">           0 :         ShuttlersChatTheme.shuttlersBrand(theme);</span></span>
+<span id="L16"><span class="lineNum">      16</span> <span class="tlaGNC">           1 :         theme.extension&lt;ShuttlersChatTheme&gt;() ??</span></span>
+<span id="L17"><span class="lineNum">      17</span> <span class="tlaGNC">           1 :         ShuttlersChatTheme.shuttlersBrand(theme);</span></span>
 <span id="L18"><span class="lineNum">      18</span>              : </span>
-<span id="L19"><span class="lineNum">      19</span> <span class="tlaUNC">           0 :     return Align(</span></span>
+<span id="L19"><span class="lineNum">      19</span> <span class="tlaGNC">           1 :     return Align(</span></span>
 <span id="L20"><span class="lineNum">      20</span>              :       alignment: Alignment.centerLeft,</span>
-<span id="L21"><span class="lineNum">      21</span> <span class="tlaUNC">           0 :       child: Container(</span></span>
+<span id="L21"><span class="lineNum">      21</span> <span class="tlaGNC">           1 :       child: Container(</span></span>
 <span id="L22"><span class="lineNum">      22</span>              :         margin: const EdgeInsets.symmetric(</span>
 <span id="L23"><span class="lineNum">      23</span>              :           horizontal: 12,</span>
 <span id="L24"><span class="lineNum">      24</span>              :           vertical: 6,</span>
@@ -89,27 +89,27 @@
 <span id="L27"><span class="lineNum">      27</span>              :           horizontal: 12,</span>
 <span id="L28"><span class="lineNum">      28</span>              :           vertical: 10,</span>
 <span id="L29"><span class="lineNum">      29</span>              :         ),</span>
-<span id="L30"><span class="lineNum">      30</span> <span class="tlaUNC">           0 :         decoration: BoxDecoration(</span></span>
-<span id="L31"><span class="lineNum">      31</span> <span class="tlaUNC">           0 :           color: theme.colorScheme.surfaceContainerHighest,</span></span>
-<span id="L32"><span class="lineNum">      32</span> <span class="tlaUNC">           0 :           borderRadius: BorderRadius.circular(12),</span></span>
+<span id="L30"><span class="lineNum">      30</span> <span class="tlaGNC">           1 :         decoration: BoxDecoration(</span></span>
+<span id="L31"><span class="lineNum">      31</span> <span class="tlaGNC">           2 :           color: theme.colorScheme.surfaceContainerHighest,</span></span>
+<span id="L32"><span class="lineNum">      32</span> <span class="tlaGNC">           1 :           borderRadius: BorderRadius.circular(12),</span></span>
 <span id="L33"><span class="lineNum">      33</span>              :         ),</span>
-<span id="L34"><span class="lineNum">      34</span> <span class="tlaUNC">           0 :         child: Row(</span></span>
+<span id="L34"><span class="lineNum">      34</span> <span class="tlaGNC">           1 :         child: Row(</span></span>
 <span id="L35"><span class="lineNum">      35</span>              :           mainAxisSize: MainAxisSize.min,</span>
-<span id="L36"><span class="lineNum">      36</span> <span class="tlaUNC">           0 :           children: [</span></span>
-<span id="L37"><span class="lineNum">      37</span> <span class="tlaUNC">           0 :             Text(</span></span>
-<span id="L38"><span class="lineNum">      38</span> <span class="tlaUNC">           0 :               typingText,</span></span>
-<span id="L39"><span class="lineNum">      39</span> <span class="tlaUNC">           0 :               style: theme.textTheme.bodySmall?.copyWith(</span></span>
+<span id="L36"><span class="lineNum">      36</span> <span class="tlaGNC">           1 :           children: [</span></span>
+<span id="L37"><span class="lineNum">      37</span> <span class="tlaGNC">           1 :             Text(</span></span>
+<span id="L38"><span class="lineNum">      38</span> <span class="tlaGNC">           1 :               typingText,</span></span>
+<span id="L39"><span class="lineNum">      39</span> <span class="tlaGNC">           3 :               style: theme.textTheme.bodySmall?.copyWith(</span></span>
 <span id="L40"><span class="lineNum">      40</span>              :                 fontStyle: FontStyle.italic,</span>
-<span id="L41"><span class="lineNum">      41</span> <span class="tlaUNC">           0 :                 color: chatTheme.typingText,</span></span>
+<span id="L41"><span class="lineNum">      41</span> <span class="tlaGNC">           1 :                 color: chatTheme.typingText,</span></span>
 <span id="L42"><span class="lineNum">      42</span>              :               ),</span>
 <span id="L43"><span class="lineNum">      43</span>              :             ),</span>
 <span id="L44"><span class="lineNum">      44</span>              :             const SizedBox(width: 8),</span>
-<span id="L45"><span class="lineNum">      45</span> <span class="tlaUNC">           0 :             SizedBox(</span></span>
+<span id="L45"><span class="lineNum">      45</span> <span class="tlaGNC">           1 :             SizedBox(</span></span>
 <span id="L46"><span class="lineNum">      46</span>              :               width: 14,</span>
 <span id="L47"><span class="lineNum">      47</span>              :               height: 14,</span>
-<span id="L48"><span class="lineNum">      48</span> <span class="tlaUNC">           0 :               child: CircularProgressIndicator(</span></span>
+<span id="L48"><span class="lineNum">      48</span> <span class="tlaGNC">           1 :               child: CircularProgressIndicator(</span></span>
 <span id="L49"><span class="lineNum">      49</span>              :                 strokeWidth: 2,</span>
-<span id="L50"><span class="lineNum">      50</span> <span class="tlaUNC">           0 :                 color: chatTheme.typingText,</span></span>
+<span id="L50"><span class="lineNum">      50</span> <span class="tlaGNC">           1 :                 color: chatTheme.typingText,</span></span>
 <span id="L51"><span class="lineNum">      51</span>              :               ),</span>
 <span id="L52"><span class="lineNum">      52</span>              :             ),</span>
 <span id="L53"><span class="lineNum">      53</span>              :           ],</span>

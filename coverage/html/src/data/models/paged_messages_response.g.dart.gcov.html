@@ -31,13 +31,13 @@
             <td class="headerValue">lcov.info</td>
             <td></td>
             <td class="headerItem">Lines:</td>
-            <td class="headerCovTableEntryHi">100.0&nbsp;%</td>
+            <td class="headerCovTableEntryLo">60.0&nbsp;%</td>
             <td class="headerCovTableEntry">10</td>
-            <td class="headerCovTableEntry">10</td>
+            <td class="headerCovTableEntry">6</td>
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2025-11-04 12:02:06</td>
+            <td class="headerValue">2025-11-04 18:06:50</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryHi">-</td>
@@ -68,21 +68,21 @@
 <span id="L6"><span class="lineNum">       6</span>              : // JsonSerializableGenerator</span>
 <span id="L7"><span class="lineNum">       7</span>              : // **************************************************************************</span>
 <span id="L8"><span class="lineNum">       8</span>              : </span>
-<span id="L9"><span class="lineNum">       9</span> <span class="tlaGNC">           2 : _PagedMessagesResponse _$PagedMessagesResponseFromJson(</span></span>
+<span id="L9"><span class="lineNum">       9</span> <span class="tlaGNC">           1 : _PagedMessagesResponse _$PagedMessagesResponseFromJson(</span></span>
 <span id="L10"><span class="lineNum">      10</span>              :   Map&lt;String, dynamic&gt; json,</span>
-<span id="L11"><span class="lineNum">      11</span> <span class="tlaGNC">           2 : ) =&gt; _PagedMessagesResponse(</span></span>
+<span id="L11"><span class="lineNum">      11</span> <span class="tlaGNC">           1 : ) =&gt; _PagedMessagesResponse(</span></span>
 <span id="L12"><span class="lineNum">      12</span>              :   messages:</span>
-<span id="L13"><span class="lineNum">      13</span> <span class="tlaGNC">           2 :       (json['messages'] as List&lt;dynamic&gt;)</span></span>
-<span id="L14"><span class="lineNum">      14</span> <span class="tlaGNC">           6 :           .map((e) =&gt; ChatMessage.fromJson(e as Map&lt;String, dynamic&gt;))</span></span>
-<span id="L15"><span class="lineNum">      15</span> <span class="tlaGNC">           2 :           .toList(),</span></span>
-<span id="L16"><span class="lineNum">      16</span> <span class="tlaGNC">           2 :   nextCursor: json['nextCursor'] as String?,</span></span>
+<span id="L13"><span class="lineNum">      13</span> <span class="tlaGNC">           1 :       (json['messages'] as List&lt;dynamic&gt;)</span></span>
+<span id="L14"><span class="lineNum">      14</span> <span class="tlaGNC">           3 :           .map((e) =&gt; ChatMessage.fromJson(e as Map&lt;String, dynamic&gt;))</span></span>
+<span id="L15"><span class="lineNum">      15</span> <span class="tlaGNC">           1 :           .toList(),</span></span>
+<span id="L16"><span class="lineNum">      16</span> <span class="tlaGNC">           1 :   nextCursor: json['nextCursor'] as String?,</span></span>
 <span id="L17"><span class="lineNum">      17</span>              : );</span>
 <span id="L18"><span class="lineNum">      18</span>              : </span>
-<span id="L19"><span class="lineNum">      19</span> <span class="tlaGNC">           1 : Map&lt;String, dynamic&gt; _$PagedMessagesResponseToJson(</span></span>
+<span id="L19"><span class="lineNum">      19</span> <span class="tlaUNC">           0 : Map&lt;String, dynamic&gt; _$PagedMessagesResponseToJson(</span></span>
 <span id="L20"><span class="lineNum">      20</span>              :   _PagedMessagesResponse instance,</span>
-<span id="L21"><span class="lineNum">      21</span> <span class="tlaGNC">           1 : ) =&gt; &lt;String, dynamic&gt;{</span></span>
-<span id="L22"><span class="lineNum">      22</span> <span class="tlaGNC">           1 :   'messages': instance.messages,</span></span>
-<span id="L23"><span class="lineNum">      23</span> <span class="tlaGNC">           1 :   'nextCursor': instance.nextCursor,</span></span>
+<span id="L21"><span class="lineNum">      21</span> <span class="tlaUNC">           0 : ) =&gt; &lt;String, dynamic&gt;{</span></span>
+<span id="L22"><span class="lineNum">      22</span> <span class="tlaUNC">           0 :   'messages': instance.messages,</span></span>
+<span id="L23"><span class="lineNum">      23</span> <span class="tlaUNC">           0 :   'nextCursor': instance.nextCursor,</span></span>
 <span id="L24"><span class="lineNum">      24</span>              : };</span>
         </pre>
               </td>

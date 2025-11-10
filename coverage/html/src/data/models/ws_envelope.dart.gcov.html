@@ -31,13 +31,13 @@
             <td class="headerValue">lcov.info</td>
             <td></td>
             <td class="headerItem">Lines:</td>
-            <td class="headerCovTableEntryLo">70.0&nbsp;%</td>
+            <td class="headerCovTableEntryLo">10.0&nbsp;%</td>
             <td class="headerCovTableEntry">20</td>
-            <td class="headerCovTableEntry">14</td>
+            <td class="headerCovTableEntry">2</td>
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2025-11-04 12:02:06</td>
+            <td class="headerValue">2025-11-04 18:06:50</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryHi">-</td>
@@ -73,8 +73,8 @@
 <span id="L11"><span class="lineNum">      11</span>              : class EmptyPayload extends WsPayload {</span>
 <span id="L12"><span class="lineNum">      12</span> <span class="tlaUNC">           0 :   const EmptyPayload();</span></span>
 <span id="L13"><span class="lineNum">      13</span>              : </span>
-<span id="L14"><span class="lineNum">      14</span> <span class="tlaGNC">           1 :   @override</span></span>
-<span id="L15"><span class="lineNum">      15</span> <span class="tlaGNC">           1 :   Map&lt;String, dynamic&gt; toJson() =&gt; {};</span></span>
+<span id="L14"><span class="lineNum">      14</span> <span class="tlaUNC">           0 :   @override</span></span>
+<span id="L15"><span class="lineNum">      15</span> <span class="tlaUNC">           0 :   Map&lt;String, dynamic&gt; toJson() =&gt; {};</span></span>
 <span id="L16"><span class="lineNum">      16</span>              : }</span>
 <span id="L17"><span class="lineNum">      17</span>              : </span>
 <span id="L18"><span class="lineNum">      18</span>              : @freezed</span>
@@ -100,8 +100,8 @@
 <span id="L38"><span class="lineNum">      38</span>              :     Map&lt;String, dynamic&gt;? details,</span>
 <span id="L39"><span class="lineNum">      39</span>              :   }) = _WsError;</span>
 <span id="L40"><span class="lineNum">      40</span>              : </span>
-<span id="L41"><span class="lineNum">      41</span> <span class="tlaGNC">           1 :   factory WsError.fromJson(Map&lt;String, dynamic&gt; json) =&gt;</span></span>
-<span id="L42"><span class="lineNum">      42</span> <span class="tlaGNC">           1 :       _$WsErrorFromJson(json);</span></span>
+<span id="L41"><span class="lineNum">      41</span> <span class="tlaUNC">           0 :   factory WsError.fromJson(Map&lt;String, dynamic&gt; json) =&gt;</span></span>
+<span id="L42"><span class="lineNum">      42</span> <span class="tlaUNC">           0 :       _$WsErrorFromJson(json);</span></span>
 <span id="L43"><span class="lineNum">      43</span>              : }</span>
 <span id="L44"><span class="lineNum">      44</span>              : </span>
 <span id="L45"><span class="lineNum">      45</span>              : @freezed</span>
@@ -119,8 +119,8 @@
 <span id="L57"><span class="lineNum">      57</span>              :     String? avatarUrl,</span>
 <span id="L58"><span class="lineNum">      58</span>              :   }) = _MessageCreatedPayload;</span>
 <span id="L59"><span class="lineNum">      59</span>              : </span>
-<span id="L60"><span class="lineNum">      60</span> <span class="tlaGNC">           1 :   factory MessageCreatedPayload.fromJson(Map&lt;String, dynamic&gt; json) =&gt;</span></span>
-<span id="L61"><span class="lineNum">      61</span> <span class="tlaGNC">           1 :       _$MessageCreatedPayloadFromJson(json);</span></span>
+<span id="L60"><span class="lineNum">      60</span> <span class="tlaUNC">           0 :   factory MessageCreatedPayload.fromJson(Map&lt;String, dynamic&gt; json) =&gt;</span></span>
+<span id="L61"><span class="lineNum">      61</span> <span class="tlaUNC">           0 :       _$MessageCreatedPayloadFromJson(json);</span></span>
 <span id="L62"><span class="lineNum">      62</span>              : }</span>
 <span id="L63"><span class="lineNum">      63</span>              : </span>
 <span id="L64"><span class="lineNum">      64</span>              : @freezed</span>
@@ -131,8 +131,8 @@
 <span id="L69"><span class="lineNum">      69</span>              :     required String status,</span>
 <span id="L70"><span class="lineNum">      70</span>              :   }) = _MessageAckPayload;</span>
 <span id="L71"><span class="lineNum">      71</span>              : </span>
-<span id="L72"><span class="lineNum">      72</span> <span class="tlaGNC">           1 :   factory MessageAckPayload.fromJson(Map&lt;String, dynamic&gt; json) =&gt;</span></span>
-<span id="L73"><span class="lineNum">      73</span> <span class="tlaGNC">           1 :       _$MessageAckPayloadFromJson(json);</span></span>
+<span id="L72"><span class="lineNum">      72</span> <span class="tlaUNC">           0 :   factory MessageAckPayload.fromJson(Map&lt;String, dynamic&gt; json) =&gt;</span></span>
+<span id="L73"><span class="lineNum">      73</span> <span class="tlaUNC">           0 :       _$MessageAckPayloadFromJson(json);</span></span>
 <span id="L74"><span class="lineNum">      74</span>              : }</span>
 <span id="L75"><span class="lineNum">      75</span>              : </span>
 <span id="L76"><span class="lineNum">      76</span>              : @freezed</span>
@@ -142,8 +142,8 @@
 <span id="L80"><span class="lineNum">      80</span>              :     required String username,</span>
 <span id="L81"><span class="lineNum">      81</span>              :   }) = _TypingPayload;</span>
 <span id="L82"><span class="lineNum">      82</span>              : </span>
-<span id="L83"><span class="lineNum">      83</span> <span class="tlaGNC">           1 :   factory TypingPayload.fromJson(Map&lt;String, dynamic&gt; json) =&gt;</span></span>
-<span id="L84"><span class="lineNum">      84</span> <span class="tlaGNC">           1 :       _$TypingPayloadFromJson(json);</span></span>
+<span id="L83"><span class="lineNum">      83</span> <span class="tlaUNC">           0 :   factory TypingPayload.fromJson(Map&lt;String, dynamic&gt; json) =&gt;</span></span>
+<span id="L84"><span class="lineNum">      84</span> <span class="tlaUNC">           0 :       _$TypingPayloadFromJson(json);</span></span>
 <span id="L85"><span class="lineNum">      85</span>              : }</span>
 <span id="L86"><span class="lineNum">      86</span>              : </span>
 <span id="L87"><span class="lineNum">      87</span>              : @freezed</span>
@@ -152,8 +152,8 @@
 <span id="L90"><span class="lineNum">      90</span>              :     required int count,</span>
 <span id="L91"><span class="lineNum">      91</span>              :   }) = _PresencePayload;</span>
 <span id="L92"><span class="lineNum">      92</span>              : </span>
-<span id="L93"><span class="lineNum">      93</span> <span class="tlaGNC">           1 :   factory PresencePayload.fromJson(Map&lt;String, dynamic&gt; json) =&gt;</span></span>
-<span id="L94"><span class="lineNum">      94</span> <span class="tlaGNC">           1 :       _$PresencePayloadFromJson(json);</span></span>
+<span id="L93"><span class="lineNum">      93</span> <span class="tlaUNC">           0 :   factory PresencePayload.fromJson(Map&lt;String, dynamic&gt; json) =&gt;</span></span>
+<span id="L94"><span class="lineNum">      94</span> <span class="tlaUNC">           0 :       _$PresencePayloadFromJson(json);</span></span>
 <span id="L95"><span class="lineNum">      95</span>              : }</span>
 <span id="L96"><span class="lineNum">      96</span>              : </span>
 <span id="L97"><span class="lineNum">      97</span>              : @freezed</span>

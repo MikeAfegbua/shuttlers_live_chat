@@ -20,7 +20,7 @@ void main() {
       final l10n = ShuttlersChatLocalizations(const Locale('en'));
 
       expect(l10n.t('title'), 'Trip Chat');
-      expect(l10n.t('hint_message'), 'Message…');
+      expect(l10n.t('hint_message'), 'Message...');
       expect(l10n.t('dismiss'), 'Dismiss');
     });
 
@@ -28,7 +28,7 @@ void main() {
       final l10n = ShuttlersChatLocalizations(const Locale('fr'));
 
       expect(l10n.t('title'), 'Chat du trajet');
-      expect(l10n.t('hint_message'), 'Message…');
+      expect(l10n.t('hint_message'), 'Message...');
       expect(l10n.t('dismiss'), 'Fermer');
     });
 
@@ -37,7 +37,7 @@ void main() {
 
       expect(
         l10n.t('user_typing', params: {'name': 'John'}),
-        'John is typing…',
+        'John is typing...',
       );
     });
 
@@ -46,7 +46,7 @@ void main() {
 
       expect(
         l10n.t('users_typing', params: {'names': 'John and Jane'}),
-        'John and Jane are typing…',
+        'John and Jane are typing...',
       );
     });
 
@@ -67,7 +67,7 @@ void main() {
 
       expect(
         l10n.t('user_typing', params: {'name': 'Jean'}),
-        "Jean est en train d'écrire…",
+        "Jean est en train d'ecrire...",
       );
     });
 

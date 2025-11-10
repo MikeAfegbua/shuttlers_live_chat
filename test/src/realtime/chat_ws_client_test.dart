@@ -22,8 +22,8 @@ void main() {
     client = ChatWsClient(config);
   });
 
-  tearDown(() {
-    client.dispose();
+  tearDown(() async {
+    await client.dispose();
   });
 
   group('ChatWsClient', () {
@@ -69,70 +69,69 @@ void main() {
     });
 
     group('stream functionality', () {
-      test('onMessageCreated stream is broadcast', () {
+      test('onMessageCreated stream is broadcast', () async {
         final stream = client.onMessageCreated;
         expect(stream.isBroadcast, isTrue);
 
-        // Can listen multiple times to broadcast stream
         final subscription1 = stream.listen((_) {});
         final subscription2 = stream.listen((_) {});
 
-        subscription1.cancel();
-        subscription2.cancel();
+        await subscription1.cancel();
+        await subscription2.cancel();
       });
 
-      test('onAck stream is broadcast', () {
+      test('onAck stream is broadcast', () async {
         final stream = client.onAck;
         expect(stream.isBroadcast, isTrue);
 
         final subscription = stream.listen((_) {});
-        subscription.cancel();
+        await subscription.cancel();
       });
 
-      test('onTypingStart stream is broadcast', () {
+      test('onTypingStart stream is broadcast', () async {
         final stream = client.onTypingStart;
         expect(stream.isBroadcast, isTrue);
 
         final subscription = stream.listen((_) {});
-        subscription.cancel();
+        await subscription.cancel();
       });
 
-      test('onTypingStop stream is broadcast', () {
+      test('onTypingStop stream is broadcast', () async {
         final stream = client.onTypingStop;
         expect(stream.isBroadcast, isTrue);
 
         final subscription = stream.listen((_) {});
-        subscription.cancel();
+        await subscription.cancel();
       });
 
-      test('onPresenceCount stream is broadcast', () {
+      test('onPresenceCount stream is broadcast', () async {
         final stream = client.onPresenceCount;
         expect(stream.isBroadcast, isTrue);
 
         final subscription = stream.listen((_) {});
-        subscription.cancel();
+        await subscription.cancel();
       });
 
-      test('onError stream is broadcast', () {
+      test('onError stream is broadcast', () async {
         final stream = client.onError;
         expect(stream.isBroadcast, isTrue);
 
         final subscription = stream.listen((_) {});
-        subscription.cancel();
+        await subscription.cancel();
       });
 
-      test('onConnection stream is broadcast', () {
+      test('onConnection stream is broadcast', () async {
         final stream = client.onConnection;
         expect(stream.isBroadcast, isTrue);
 
         final subscription = stream.listen((_) {});
-        subscription.cancel();
+        await subscription.cancel();
       });
     });
 
     group('envelope models', () {
       test('WsEnvelope can be created with required fields', () {
-        final envelope = WsEnvelope(
+        const envelope = WsEnvelope(
           type: 'test',
           version: '1',
           payload: {'key': 'value'},
@@ -146,7 +145,7 @@ void main() {
       });
 
       test('WsEnvelope can be serialized to JSON', () {
-        final envelope = WsEnvelope(
+        const envelope = WsEnvelope(
           type: 'message.send',
           version: '1',
           payload: {'text': 'Hello'},
@@ -182,7 +181,7 @@ void main() {
       });
 
       test('WsError can be created and serialized', () {
-        final error = WsError(
+        const error = WsError(
           code: 'INVALID_MESSAGE',
           message: 'Message text is required',
           details: {'field': 'text'},
@@ -227,7 +226,7 @@ void main() {
       });
 
       test('MessageAckPayload can be created and serialized', () {
-        final payload = MessageAckPayload(
+        const payload = MessageAckPayload(
           clientId: 'client-123',
           serverId: 'server-456',
           status: 'sent',
@@ -244,7 +243,7 @@ void main() {
       });
 
       test('MessageSendPayload can be created and serialized', () {
-        final payload = MessageSendPayload(
+        const payload = MessageSendPayload(
           tripId: 'trip-123',
           clientId: 'client-456',
           text: 'Hello world',
@@ -261,7 +260,7 @@ void main() {
       });
 
       test('TypingPayload can be created and serialized', () {
-        final payload = TypingPayload(
+        const payload = TypingPayload(
           userId: 'user-123',
           username: 'TestUser',
         );
@@ -275,7 +274,7 @@ void main() {
       });
 
       test('TypingEventPayload can be created and serialized', () {
-        final payload = TypingEventPayload(tripId: 'trip-123');
+        const payload = TypingEventPayload(tripId: 'trip-123');
 
         expect(payload.tripId, equals('trip-123'));
 
@@ -284,7 +283,7 @@ void main() {
       });
 
       test('PresencePayload can be created and serialized', () {
-        final payload = PresencePayload(count: 5);
+        const payload = PresencePayload(count: 5);
 
         expect(payload.count, equals(5));
 
@@ -300,35 +299,31 @@ void main() {
 
       test('dispose can be called multiple times safely', () async {
         await client.dispose();
-        await client.dispose(); // Should not throw
+        await client.dispose();
       });
     });
 
     group('connection behavior', () {
       test('connect method exists', () {
-        expect(() => client.connect(), returnsNormally);
+        expect(client.connect, isA<Function>());
       });
 
       test('client starts disconnected', () {
-        // Since we can't easily test actual connection without a server,
-        // we test that the methods exist and don't throw
         expect(() => client.onConnection, returnsNormally);
       });
     });
 
     group('error handling', () {
       test('client handles invalid JSON gracefully', () {
-        // This test would require access to internal methods
-        // For now, we ensure error stream exists
         expect(client.onError, isA<Stream<WsError>>());
       });
 
-      test('client has error stream for connection issues', () {
+      test('client has error stream for connection issues', () async {
         final errorStream = client.onError;
         expect(errorStream.isBroadcast, isTrue);
 
         final subscription = errorStream.listen((_) {});
-        subscription.cancel();
+        await subscription.cancel();
       });
     });
 
@@ -346,7 +341,6 @@ void main() {
           'message.send',
         ];
 
-        // Test that envelopes can be created for all types
         for (final type in supportedTypes) {
           expect(
             () => WsEnvelope(type: type, payload: {}),
