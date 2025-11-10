@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:shuttlers_live_chat/shuttlers_live_chat.dart';
 
 class AppTheme {
   AppTheme._();
@@ -90,7 +89,6 @@ class AppTheme {
       ),
       textTheme: _textTheme,
       useMaterial3: true,
-      extensions: [ShuttlersChatTheme.shuttlersBrand(ThemeData.light())],
     );
   }
 
@@ -102,7 +100,6 @@ class AppTheme {
       ),
       textTheme: _textTheme,
       useMaterial3: true,
-      extensions: [ShuttlersChatTheme.shuttlersBrand(ThemeData.dark())],
     );
   }
 }

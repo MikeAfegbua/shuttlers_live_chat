@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shuttlers_live_chat/src/chat_config.dart';
+import 'package:shuttlers_live_chat/src/core/theme/chat_theme.dart';
+import 'package:shuttlers_live_chat/src/core/theme/chat_theme_provider.dart';
 import 'package:shuttlers_live_chat/src/core/utils/date_formatters.dart';
 import 'package:shuttlers_live_chat/src/core/utils/uuid_generator.dart';
 import 'package:shuttlers_live_chat/src/l10n/l10n.dart';
@@ -20,9 +22,22 @@ class TripChatPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ProviderScope(
-      overrides: [chatConfigProvider.overrideWithValue(config)],
-      child: const _TripChatView(),
+    final brightness = Theme.of(context).brightness;
+    final isDark = brightness == Brightness.dark;
+
+    final selectedTheme =
+        isDark
+            ? (config.darkTheme ?? config.theme ?? const ChatTheme())
+            : (config.theme ?? const ChatTheme());
+
+    final resolvedTheme = selectedTheme.resolveFrom(context);
+
+    return ChatThemeProvider(
+      theme: resolvedTheme,
+      child: ProviderScope(
+        overrides: [chatConfigProvider.overrideWithValue(config)],
+        child: const _TripChatView(),
+      ),
     );
   }
 }
@@ -109,7 +124,9 @@ class _TripChatViewState extends ConsumerState<_TripChatView> {
           return GestureDetector(
             onTap: () => FocusScope.of(ctx).unfocus(),
             child: Scaffold(
+              backgroundColor: ChatThemeProvider.of(ctx).backgroundColor,
               appBar: AppBar(
+                backgroundColor: ChatThemeProvider.of(ctx).appBarColor,
                 title: Text(l10n.t('title')),
                 actions: [
                   Padding(
@@ -191,65 +208,74 @@ class _TripChatViewState extends ConsumerState<_TripChatView> {
                         ),
                         SafeArea(
                           top: false,
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: Padding(
-                                  padding: const EdgeInsets.fromLTRB(
-                                    12,
-                                    8,
-                                    8,
-                                    12,
-                                  ),
-                                  child: TextField(
-                                    controller: _ctrl,
-                                    decoration: InputDecoration(
-                                      hintText: l10n.t('hint_message'),
-                                      border: const OutlineInputBorder(),
-                                      isDense: true,
+                          child: Container(
+                            color:
+                                ChatThemeProvider.of(ctx).inputBackgroundColor,
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: Padding(
+                                    padding: const EdgeInsets.fromLTRB(
+                                      12,
+                                      8,
+                                      8,
+                                      12,
                                     ),
-                                    onChanged: (_) => _handleTextChanged(),
+                                    child: TextField(
+                                      controller: _ctrl,
+                                      decoration: InputDecoration(
+                                        hintText: l10n.t('hint_message'),
+                                        border: const OutlineInputBorder(),
+                                        isDense: true,
+                                      ),
+                                      onChanged: (_) => _handleTextChanged(),
+                                    ),
                                   ),
                                 ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                  right: 12,
-                                  bottom: 12,
-                                ),
-                                child: IconButton(
-                                  icon: Icon(
-                                    Icons.send,
-                                    color:
-                                        _ctrl.text.trim().isEmpty
-                                            ? Theme.of(ctx)
-                                                .colorScheme
-                                                .onSurface
-                                                .withValues(alpha: 0.38)
-                                            : Theme.of(ctx).colorScheme.primary,
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                    right: 12,
+                                    bottom: 12,
                                   ),
-                                  onPressed: () async {
-                                    final txt = _ctrl.text.trim();
-                                    if (txt.isEmpty) return;
+                                  child: IconButton(
+                                    icon: Icon(
+                                      Icons.send,
+                                      color:
+                                          _ctrl.text.trim().isEmpty
+                                              ? Theme.of(ctx)
+                                                  .colorScheme
+                                                  .onSurface
+                                                  .withValues(alpha: 0.38)
+                                              : ChatThemeProvider.of(
+                                                    ctx,
+                                                  ).sendButtonColor ??
+                                                  Theme.of(
+                                                    ctx,
+                                                  ).colorScheme.primary,
+                                    ),
+                                    onPressed: () async {
+                                      final txt = _ctrl.text.trim();
+                                      if (txt.isEmpty) return;
 
-                                    _typingTimer?.cancel();
-                                    if (_isTyping) {
-                                      _isTyping = false;
-                                      ref
-                                          .read(chatRepositoryProvider)
-                                          .typingStop();
-                                    }
+                                      _typingTimer?.cancel();
+                                      if (_isTyping) {
+                                        _isTyping = false;
+                                        ref
+                                            .read(chatRepositoryProvider)
+                                            .typingStop();
+                                      }
 
-                                    final clientId = UuidGenerator.generate();
-                                    await ref
-                                        .read(chatControllerProvider.notifier)
-                                        .send(clientId, txt);
-                                    _ctrl.clear();
-                                    setState(() {});
-                                  },
+                                      final clientId = UuidGenerator.generate();
+                                      await ref
+                                          .read(chatControllerProvider.notifier)
+                                          .send(clientId, txt);
+                                      _ctrl.clear();
+                                      setState(() {});
+                                    },
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
                       ],

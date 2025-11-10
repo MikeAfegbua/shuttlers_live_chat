@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:shuttlers_live_chat/src/core/theme/chat_theme.dart';
+import 'package:shuttlers_live_chat/src/core/theme/chat_theme_provider.dart';
 
 class TypingIndicatorBubble extends StatelessWidget {
   const TypingIndicatorBubble({
@@ -12,9 +12,10 @@ class TypingIndicatorBubble extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final chatTheme =
-        theme.extension<ShuttlersChatTheme>() ??
-        ShuttlersChatTheme.shuttlersBrand(theme);
+    final chatTheme = ChatThemeProvider.of(context);
+
+    final indicatorColor =
+        chatTheme.typingIndicatorColor ?? theme.colorScheme.onSurfaceVariant;
 
     return Align(
       alignment: Alignment.centerLeft,
@@ -38,7 +39,7 @@ class TypingIndicatorBubble extends StatelessWidget {
               typingText,
               style: theme.textTheme.bodySmall?.copyWith(
                 fontStyle: FontStyle.italic,
-                color: chatTheme.typingText,
+                color: indicatorColor,
               ),
             ),
             const SizedBox(width: 8),
@@ -47,7 +48,7 @@ class TypingIndicatorBubble extends StatelessWidget {
               height: 14,
               child: CircularProgressIndicator(
                 strokeWidth: 2,
-                color: chatTheme.typingText,
+                color: indicatorColor,
               ),
             ),
           ],

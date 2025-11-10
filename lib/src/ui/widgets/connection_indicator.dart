@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shuttlers_live_chat/src/core/theme/chat_theme_provider.dart';
 
 class ConnectionIndicator extends StatelessWidget {
   const ConnectionIndicator({
@@ -11,11 +12,14 @@ class ConnectionIndicator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final chatTheme = ChatThemeProvider.of(context);
+
+    final defaultColor = isConnected ? Colors.green : theme.colorScheme.error;
 
     return Icon(
       isConnected ? Icons.wifi : Icons.wifi_off,
       size: 20,
-      color: isConnected ? Colors.green : theme.colorScheme.error,
+      color: chatTheme.connectionIndicatorColor ?? defaultColor,
     );
   }
 }

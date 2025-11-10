@@ -1,75 +1,59 @@
 import 'package:flutter/material.dart';
 
-class ShuttlersChatTheme extends ThemeExtension<ShuttlersChatTheme> {
-  const ShuttlersChatTheme({
-    required this.meBubble,
-    required this.otherBubble,
-    required this.bubbleText,
-    required this.typingText,
-    required this.sendEnabled,
-    required this.sendDisabled,
+class ChatTheme {
+  const ChatTheme({
+    this.backgroundColor,
+    this.appBarColor,
+    this.messageBubbleColor,
+    this.myMessageBubbleColor,
+    this.messageTextColor,
+    this.myMessageTextColor,
+    this.timestampTextColor,
+    this.inputBackgroundColor,
+    this.sendButtonColor,
+    this.dateHeaderColor,
+    this.dateHeaderTextColor,
+    this.typingIndicatorColor,
+    this.connectionIndicatorColor,
   });
-  factory ShuttlersChatTheme.fromTheme(ThemeData theme) {
-    final cs = theme.colorScheme;
-    final on = theme.textTheme.bodyMedium?.color ?? cs.onSurface;
 
-    return ShuttlersChatTheme(
-      meBubble: cs.primary.withValues(alpha: .14),
-      otherBubble: cs.surfaceContainerHighest,
-      bubbleText: on,
-      typingText: (theme.textTheme.bodySmall?.color ?? on).withValues(
-        alpha: .7,
-      ),
-      sendEnabled: cs.primary,
-      sendDisabled: on.withValues(alpha: .38),
-    );
-  }
+  final Color? backgroundColor;
+  final Color? appBarColor;
+  final Color? messageBubbleColor;
+  final Color? myMessageBubbleColor;
+  final Color? messageTextColor;
+  final Color? myMessageTextColor;
+  final Color? timestampTextColor;
+  final Color? inputBackgroundColor;
+  final Color? sendButtonColor;
+  final Color? dateHeaderColor;
+  final Color? dateHeaderTextColor;
+  final Color? typingIndicatorColor;
+  final Color? connectionIndicatorColor;
 
-  factory ShuttlersChatTheme.shuttlersBrand(ThemeData theme) {
-    const shuttlersGreen = Color(0xFF0DAC5C);
-    final base = ShuttlersChatTheme.fromTheme(theme);
-    return base.copyWith(
-      meBubble: shuttlersGreen.withValues(alpha: .16),
-      sendEnabled: shuttlersGreen,
-    );
-  }
-
-  final Color meBubble;
-  final Color otherBubble;
-  final Color bubbleText;
-  final Color typingText;
-  final Color sendEnabled;
-  final Color sendDisabled;
-
-  @override
-  ShuttlersChatTheme copyWith({
-    Color? meBubble,
-    Color? otherBubble,
-    Color? bubbleText,
-    Color? typingText,
-    Color? sendEnabled,
-    Color? sendDisabled,
-  }) {
-    return ShuttlersChatTheme(
-      meBubble: meBubble ?? this.meBubble,
-      otherBubble: otherBubble ?? this.otherBubble,
-      bubbleText: bubbleText ?? this.bubbleText,
-      typingText: typingText ?? this.typingText,
-      sendEnabled: sendEnabled ?? this.sendEnabled,
-      sendDisabled: sendDisabled ?? this.sendDisabled,
-    );
-  }
-
-  @override
-  ShuttlersChatTheme lerp(ThemeExtension<ShuttlersChatTheme>? other, double t) {
-    if (other is! ShuttlersChatTheme) return this;
-    return ShuttlersChatTheme(
-      meBubble: Color.lerp(meBubble, other.meBubble, t)!,
-      otherBubble: Color.lerp(otherBubble, other.otherBubble, t)!,
-      bubbleText: Color.lerp(bubbleText, other.bubbleText, t)!,
-      typingText: Color.lerp(typingText, other.typingText, t)!,
-      sendEnabled: Color.lerp(sendEnabled, other.sendEnabled, t)!,
-      sendDisabled: Color.lerp(sendDisabled, other.sendDisabled, t)!,
+  ChatTheme resolveFrom(BuildContext context) {
+    final theme = Theme.of(context);
+    return ChatTheme(
+      backgroundColor: backgroundColor ?? theme.scaffoldBackgroundColor,
+      appBarColor: appBarColor,
+      messageBubbleColor:
+          messageBubbleColor ?? theme.colorScheme.surfaceContainerHighest,
+      myMessageBubbleColor:
+          myMessageBubbleColor ??
+          theme.colorScheme.primary.withValues(alpha: 0.12),
+      messageTextColor: messageTextColor ?? theme.colorScheme.onSurface,
+      myMessageTextColor: myMessageTextColor ?? theme.colorScheme.onSurface,
+      timestampTextColor:
+          timestampTextColor ?? theme.colorScheme.onSurfaceVariant,
+      inputBackgroundColor: inputBackgroundColor,
+      sendButtonColor: sendButtonColor ?? theme.colorScheme.primary,
+      dateHeaderColor:
+          dateHeaderColor ?? theme.colorScheme.surfaceContainerHighest,
+      dateHeaderTextColor:
+          dateHeaderTextColor ?? theme.colorScheme.onSurfaceVariant,
+      typingIndicatorColor:
+          typingIndicatorColor ?? theme.colorScheme.onSurfaceVariant,
+      connectionIndicatorColor: connectionIndicatorColor,
     );
   }
 }
