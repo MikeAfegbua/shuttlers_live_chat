@@ -4,12 +4,25 @@ import 'dart:convert';
 import 'package:shuttlers_live_chat/src/chat_config.dart';
 import 'package:shuttlers_live_chat/src/data/models/chat_message.dart';
 import 'package:shuttlers_live_chat/src/data/models/ws_envelope.dart';
+import 'package:shuttlers_live_chat/src/realtime/message_handler.dart';
+import 'package:shuttlers_live_chat/src/realtime/message_handlers.dart';
 import 'package:web_socket_channel/io.dart';
 
 class ChatWsClient {
-  ChatWsClient(this.config);
+  ChatWsClient(this.config) {
+    _handlers = [
+      MessageCreatedHandler(_messageCreatedCtrl),
+      MessageAckHandler(_ackCtrl),
+      TypingStartHandler(_typingStartCtrl),
+      TypingStopHandler(_typingStopCtrl),
+      PresenceUpdateHandler(_presenceCtrl),
+      SystemErrorHandler(_errorCtrl),
+      PongHandler(),
+    ];
+  }
 
   final ShuttlersChatConfig config;
+  late final List<WsMessageHandler> _handlers;
 
   IOWebSocketChannel? _ch;
   StreamSubscription<dynamic>? _sub;
@@ -77,57 +90,11 @@ class ChatWsClient {
       final map = json.decode(data as String) as Map<String, dynamic>;
       final env = WsEnvelope.fromJson(map);
 
-      switch (env.type) {
-        case 'message.created':
-          final payload = MessageCreatedPayload.fromJson(env.payload);
-          _messageCreatedCtrl.add(
-            ChatMessage(
-              id: payload.id,
-              clientId: payload.clientId,
-              tripId: payload.tripId,
-              userId: payload.userId,
-              username: payload.username,
-              avatarUrl: payload.avatarUrl,
-              text: payload.text,
-              createdAt: DateTime.parse(payload.createdAt),
-            ),
-          );
-
-        case 'message.ack':
-          final payload = MessageAckPayload.fromJson(env.payload);
-          _ackCtrl.add({
-            'clientId': payload.clientId,
-            'serverId': payload.serverId,
-            'status': payload.status,
-            'requestId': env.requestId,
-          });
-
-        case 'typing.start':
-          final payload = TypingPayload.fromJson(env.payload);
-          _typingStartCtrl.add({
-            'userId': payload.userId,
-            'username': payload.username,
-          });
-
-        case 'typing.stop':
-          final payload = TypingPayload.fromJson(env.payload);
-          _typingStopCtrl.add({
-            'userId': payload.userId,
-            'username': payload.username,
-          });
-
-        case 'presence.update':
-          final payload = PresencePayload.fromJson(env.payload);
-          _presenceCtrl.add(payload.count);
-
-        case 'pong':
-          break;
-
-        case 'system.error':
-          if (env.error != null) _errorCtrl.add(env.error!);
-
-        default:
-          break;
+      for (final handler in _handlers) {
+        if (handler.canHandle(env.type)) {
+          handler.handle(env);
+          return;
+        }
       }
     } on Exception catch (_) {}
   }

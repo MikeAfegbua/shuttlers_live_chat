@@ -1,15 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:shuttlers_live_chat/src/core/theme/chat_theme.dart';
+import 'package:shuttlers_live_chat/src/core/theme/chat_theme_provider.dart';
 import 'package:shuttlers_live_chat/src/ui/widgets/date_header.dart';
 
 void main() {
   group('DateHeader', () {
+    Widget wrapWithTheme(Widget child) {
+      return MaterialApp(
+        home: ChatThemeProvider(
+          theme: const ChatTheme(),
+          child: Scaffold(body: child),
+        ),
+      );
+    }
+
     testWidgets('renders date text', (WidgetTester tester) async {
       await tester.pumpWidget(
-        const MaterialApp(
-          home: Scaffold(
-            body: DateHeader(text: 'Today'),
-          ),
+        wrapWithTheme(
+          const DateHeader(text: 'Today'),
         ),
       );
 
@@ -18,17 +27,13 @@ void main() {
 
     testWidgets('has correct styling and layout', (WidgetTester tester) async {
       await tester.pumpWidget(
-        const MaterialApp(
-          home: Scaffold(
-            body: DateHeader(text: 'Yesterday'),
-          ),
+        wrapWithTheme(
+          const DateHeader(text: 'Yesterday'),
         ),
       );
 
-      
       expect(find.byType(DateHeader), findsOneWidget);
 
-      
       final containerWidgets = tester.widgetList<Container>(
         find.byType(Container),
       );
@@ -57,10 +62,8 @@ void main() {
 
       for (final dateText in testDates) {
         await tester.pumpWidget(
-          MaterialApp(
-            home: Scaffold(
-              body: DateHeader(text: dateText),
-            ),
+          wrapWithTheme(
+            DateHeader(text: dateText),
           ),
         );
 
@@ -70,14 +73,11 @@ void main() {
 
     testWidgets('handles empty string', (WidgetTester tester) async {
       await tester.pumpWidget(
-        const MaterialApp(
-          home: Scaffold(
-            body: DateHeader(text: ''),
-          ),
+        wrapWithTheme(
+          const DateHeader(text: ''),
         ),
       );
 
-      
       expect(find.byType(Text), findsOneWidget);
     });
 
@@ -86,12 +86,10 @@ void main() {
           'This is a very long date header text that might wrap to multiple lines';
 
       await tester.pumpWidget(
-        const MaterialApp(
-          home: Scaffold(
-            body: SizedBox(
-              width: 200,
-              child: DateHeader(text: longText),
-            ),
+        wrapWithTheme(
+          const SizedBox(
+            width: 200,
+            child: DateHeader(text: longText),
           ),
         ),
       );
@@ -111,8 +109,11 @@ void main() {
               labelSmall: TextStyle(fontSize: 12),
             ),
           ),
-          home: const Scaffold(
-            body: DateHeader(text: 'Today'),
+          home: const ChatThemeProvider(
+            theme: ChatTheme(),
+            child: Scaffold(
+              body: DateHeader(text: 'Today'),
+            ),
           ),
         ),
       );
@@ -124,31 +125,24 @@ void main() {
 
     testWidgets('is accessible', (WidgetTester tester) async {
       await tester.pumpWidget(
-        const MaterialApp(
-          home: Scaffold(
-            body: DateHeader(text: 'Today'),
-          ),
+        wrapWithTheme(
+          const DateHeader(text: 'Today'),
         ),
       );
 
-      
       expect(find.byType(Text), findsOneWidget);
-
-      
       expect(find.text('Today'), findsOneWidget);
     });
 
     testWidgets('renders in different contexts', (WidgetTester tester) async {
       await tester.pumpWidget(
-        const MaterialApp(
-          home: Scaffold(
-            body: Column(
-              children: [
-                DateHeader(text: 'First Header'),
-                SizedBox(height: 20),
-                DateHeader(text: 'Second Header'),
-              ],
-            ),
+        wrapWithTheme(
+          const Column(
+            children: [
+              DateHeader(text: 'First Header'),
+              SizedBox(height: 20),
+              DateHeader(text: 'Second Header'),
+            ],
           ),
         ),
       );
@@ -160,23 +154,20 @@ void main() {
 
     testWidgets('maintains layout consistency', (WidgetTester tester) async {
       await tester.pumpWidget(
-        const MaterialApp(
-          home: Scaffold(
-            body: Column(
-              children: [
-                DateHeader(text: 'Short'),
-                DateHeader(text: 'Medium length text'),
-                DateHeader(
-                  text:
-                      'Very long text that should still be formatted consistently',
-                ),
-              ],
-            ),
+        wrapWithTheme(
+          const Column(
+            children: [
+              DateHeader(text: 'Short'),
+              DateHeader(text: 'Medium length text'),
+              DateHeader(
+                text:
+                    'Very long text that should still be formatted consistently',
+              ),
+            ],
           ),
         ),
       );
 
-      
       final containers = tester.widgetList<Container>(find.byType(Container));
       expect(containers.length, equals(3));
 

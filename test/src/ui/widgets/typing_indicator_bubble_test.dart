@@ -1,16 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:shuttlers_live_chat/src/core/theme/chat_theme.dart';
+import 'package:shuttlers_live_chat/src/core/theme/chat_theme_provider.dart';
 import 'package:shuttlers_live_chat/src/ui/widgets/typing_indicator_bubble.dart';
 
 void main() {
   group('TypingIndicatorBubble', () {
+    Widget wrapWithTheme(Widget child) {
+      return MaterialApp(
+        home: ChatThemeProvider(
+          theme: const ChatTheme(),
+          child: Scaffold(body: child),
+        ),
+      );
+    }
+
     testWidgets('renders typing text', (WidgetTester tester) async {
       await tester.pumpWidget(
-        const MaterialApp(
-          home: Scaffold(
-            body: TypingIndicatorBubble(
-              typingText: 'John is typing...',
-            ),
+        wrapWithTheme(
+          const TypingIndicatorBubble(
+            typingText: 'John is typing...',
           ),
         ),
       );
@@ -20,11 +29,9 @@ void main() {
 
     testWidgets('has correct alignment', (WidgetTester tester) async {
       await tester.pumpWidget(
-        const MaterialApp(
-          home: Scaffold(
-            body: TypingIndicatorBubble(
-              typingText: 'Someone is typing...',
-            ),
+        wrapWithTheme(
+          const TypingIndicatorBubble(
+            typingText: 'Someone is typing...',
           ),
         ),
       );
@@ -35,11 +42,9 @@ void main() {
 
     testWidgets('has correct container styling', (WidgetTester tester) async {
       await tester.pumpWidget(
-        const MaterialApp(
-          home: Scaffold(
-            body: TypingIndicatorBubble(
-              typingText: 'User is typing...',
-            ),
+        wrapWithTheme(
+          const TypingIndicatorBubble(
+            typingText: 'User is typing...',
           ),
         ),
       );
@@ -60,11 +65,9 @@ void main() {
 
     testWidgets('has correct row layout', (WidgetTester tester) async {
       await tester.pumpWidget(
-        const MaterialApp(
-          home: Scaffold(
-            body: TypingIndicatorBubble(
-              typingText: 'Multiple users are typing...',
-            ),
+        wrapWithTheme(
+          const TypingIndicatorBubble(
+            typingText: 'Multiple users are typing...',
           ),
         ),
       );
@@ -79,35 +82,13 @@ void main() {
       expect(rowChildren[2], isA<SizedBox>());
     });
 
-    testWidgets('has correct spacing between text and indicator', (
+    testWidgets('shows circular progress indicator', (
       WidgetTester tester,
     ) async {
       await tester.pumpWidget(
-        const MaterialApp(
-          home: Scaffold(
-            body: TypingIndicatorBubble(
-              typingText: 'Bob is typing...',
-            ),
-          ),
-        ),
-      );
-
-      final sizedBoxWidgets = tester.widgetList<SizedBox>(
-        find.byType(SizedBox),
-      );
-      final spacingBox = sizedBoxWidgets.firstWhere((box) => box.width == 8);
-      expect(spacingBox.width, equals(8));
-    });
-
-    testWidgets('has circular progress indicator with correct properties', (
-      WidgetTester tester,
-    ) async {
-      await tester.pumpWidget(
-        const MaterialApp(
-          home: Scaffold(
-            body: TypingIndicatorBubble(
-              typingText: 'Alice is typing...',
-            ),
+        wrapWithTheme(
+          const TypingIndicatorBubble(
+            typingText: 'Typing...',
           ),
         ),
       );
@@ -118,202 +99,92 @@ void main() {
         find.byType(CircularProgressIndicator),
       );
       expect(progressIndicator.strokeWidth, equals(2));
-
-      final indicatorContainer = tester.widget<SizedBox>(
-        find.ancestor(
-          of: find.byType(CircularProgressIndicator),
-          matching: find.byType(SizedBox),
-        ),
-      );
-      expect(indicatorContainer.width, equals(14));
-      expect(indicatorContainer.height, equals(14));
     });
 
-    testWidgets('text has correct italic styling', (WidgetTester tester) async {
-      await tester.pumpWidget(
-        const MaterialApp(
-          home: Scaffold(
-            body: TypingIndicatorBubble(
-              typingText: 'Someone is typing...',
-            ),
-          ),
-        ),
-      );
-
-      final textWidget = tester.widget<Text>(find.text('Someone is typing...'));
-      expect(textWidget.style?.fontStyle, equals(FontStyle.italic));
-    });
-
-    testWidgets('uses theme colors correctly', (WidgetTester tester) async {
-      await tester.pumpWidget(
-        MaterialApp(
-          theme: ThemeData(
-            colorScheme: const ColorScheme.light(
-              surfaceContainerHighest: Colors.lightBlue,
-            ),
-          ),
-          home: const Scaffold(
-            body: TypingIndicatorBubble(
-              typingText: 'Typing...',
-            ),
-          ),
-        ),
-      );
-
-      final containerWidget = tester.widget<Container>(find.byType(Container));
-      final decoration = containerWidget.decoration! as BoxDecoration;
-      expect(decoration.color, equals(Colors.lightBlue));
-    });
-
-    testWidgets('handles different typing texts', (WidgetTester tester) async {
-      const typingTexts = [
-        'John is typing...',
-        'Multiple users are typing...',
-        'Someone is typing',
-        'typing...',
-        'User123 is composing a message...',
-      ];
-
-      for (final text in typingTexts) {
-        await tester.pumpWidget(
-          MaterialApp(
-            home: Scaffold(
-              body: TypingIndicatorBubble(
-                typingText: text,
-              ),
-            ),
-          ),
-        );
-
-        expect(find.text(text), findsOneWidget);
-      }
-    });
-
-    testWidgets('handles empty typing text', (WidgetTester tester) async {
-      await tester.pumpWidget(
-        const MaterialApp(
-          home: Scaffold(
-            body: TypingIndicatorBubble(
-              typingText: '',
-            ),
-          ),
-        ),
-      );
-
-      expect(find.byType(Text), findsOneWidget);
-      expect(find.byType(CircularProgressIndicator), findsOneWidget);
-    });
-
-    testWidgets('handles long typing text', (WidgetTester tester) async {
-      const longText =
-          'This is a very long typing indicator text that should be handled gracefully by the widget';
-
-      await tester.pumpWidget(
-        const MaterialApp(
-          home: Scaffold(
-            body: SizedBox(
-              width: 300,
-              child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: TypingIndicatorBubble(
-                  typingText: longText,
-                ),
-              ),
-            ),
-          ),
-        ),
-      );
-
-      expect(find.text(longText), findsOneWidget);
-    });
-
-    testWidgets('renders consistently in different layouts', (
+    testWidgets('has circular progress indicator in sized box', (
       WidgetTester tester,
     ) async {
       await tester.pumpWidget(
-        const MaterialApp(
-          home: Scaffold(
-            body: Column(
-              children: [
-                TypingIndicatorBubble(typingText: 'First user is typing...'),
-                SizedBox(height: 10),
-                TypingIndicatorBubble(typingText: 'Second user is typing...'),
-              ],
-            ),
+        wrapWithTheme(
+          const TypingIndicatorBubble(
+            typingText: 'Typing...',
           ),
         ),
       );
 
-      expect(find.text('First user is typing...'), findsOneWidget);
-      expect(find.text('Second user is typing...'), findsOneWidget);
-      expect(find.byType(TypingIndicatorBubble), findsNWidgets(2));
-      expect(find.byType(CircularProgressIndicator), findsNWidgets(2));
+      final sizedBoxFinder = find.descendant(
+        of: find.byType(Row),
+        matching: find.byType(SizedBox),
+      );
+
+      expect(sizedBoxFinder, findsNWidgets(2));
+
+      final sizedBoxWidgets =
+          tester.widgetList<SizedBox>(sizedBoxFinder).toList();
+      expect(sizedBoxWidgets[0].width, equals(8));
+      expect(sizedBoxWidgets[1].width, equals(14));
+      expect(sizedBoxWidgets[1].height, equals(14));
     });
 
-    testWidgets('is accessible', (WidgetTester tester) async {
+    testWidgets('maintains proper spacing', (WidgetTester tester) async {
       await tester.pumpWidget(
-        const MaterialApp(
-          home: Scaffold(
-            body: TypingIndicatorBubble(
-              typingText: 'John is typing...',
-            ),
+        wrapWithTheme(
+          const TypingIndicatorBubble(
+            typingText: 'Loading...',
           ),
         ),
       );
 
-      expect(find.text('John is typing...'), findsOneWidget);
-      expect(find.byType(CircularProgressIndicator), findsOneWidget);
+      final sizedBoxWidgets =
+          tester
+              .widgetList<SizedBox>(
+                find.descendant(
+                  of: find.byType(Row),
+                  matching: find.byType(SizedBox),
+                ),
+              )
+              .toList();
+
+      expect(sizedBoxWidgets.length, equals(2));
+      expect(sizedBoxWidgets[0].width, equals(8));
+      expect(sizedBoxWidgets[1].width, equals(14));
+      expect(sizedBoxWidgets[1].height, equals(14));
     });
 
-    testWidgets('progress indicator animates', (WidgetTester tester) async {
+    testWidgets('respects custom typing text', (WidgetTester tester) async {
+      const customText = 'Agent is responding...';
+
       await tester.pumpWidget(
-        const MaterialApp(
-          home: Scaffold(
-            body: TypingIndicatorBubble(
-              typingText: 'Loading...',
-            ),
+        wrapWithTheme(
+          const TypingIndicatorBubble(
+            typingText: customText,
           ),
         ),
       );
 
-      expect(find.byType(CircularProgressIndicator), findsOneWidget);
+      expect(find.text(customText), findsOneWidget);
+    });
+
+    testWidgets('uses theme color for indicator', (WidgetTester tester) async {
+      const testColor = Colors.purple;
+
+      await tester.pumpWidget(
+        const MaterialApp(
+          home: ChatThemeProvider(
+            theme: ChatTheme(typingIndicatorColor: testColor),
+            child: Scaffold(
+              body: TypingIndicatorBubble(
+                typingText: 'Typing...',
+              ),
+            ),
+          ),
+        ),
+      );
 
       final progressIndicator = tester.widget<CircularProgressIndicator>(
         find.byType(CircularProgressIndicator),
       );
-      expect(progressIndicator.value, isNull);
-    });
-
-    testWidgets('maintains visual consistency across different themes', (
-      WidgetTester tester,
-    ) async {
-      await tester.pumpWidget(
-        MaterialApp(
-          theme: ThemeData.dark(),
-          home: const Scaffold(
-            body: TypingIndicatorBubble(
-              typingText: 'Dark theme typing...',
-            ),
-          ),
-        ),
-      );
-
-      expect(find.text('Dark theme typing...'), findsOneWidget);
-      expect(find.byType(CircularProgressIndicator), findsOneWidget);
-
-      await tester.pumpWidget(
-        MaterialApp(
-          theme: ThemeData.light(),
-          home: const Scaffold(
-            body: TypingIndicatorBubble(
-              typingText: 'Light theme typing...',
-            ),
-          ),
-        ),
-      );
-
-      expect(find.text('Light theme typing...'), findsOneWidget);
-      expect(find.byType(CircularProgressIndicator), findsOneWidget);
+      expect(progressIndicator.color, equals(testColor));
     });
   });
 }

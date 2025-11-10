@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:shuttlers_live_chat/src/core/theme/chat_theme.dart';
+import 'package:shuttlers_live_chat/src/core/theme/chat_theme_provider.dart';
 import 'package:shuttlers_live_chat/src/data/models/chat_message.dart';
 import 'package:shuttlers_live_chat/src/ui/widgets/chat_message_bubble.dart';
 
@@ -19,14 +21,21 @@ void main() {
       );
     });
 
+    Widget wrapWithTheme(Widget child) {
+      return MaterialApp(
+        home: ChatThemeProvider(
+          theme: const ChatTheme(),
+          child: Scaffold(body: child),
+        ),
+      );
+    }
+
     testWidgets('renders message from other user', (WidgetTester tester) async {
       await tester.pumpWidget(
-        MaterialApp(
-          home: Scaffold(
-            body: ChatMessageBubble(
-              message: testMessage,
-              isMe: false,
-            ),
+        wrapWithTheme(
+          ChatMessageBubble(
+            message: testMessage,
+            isMe: false,
           ),
         ),
       );
@@ -42,12 +51,10 @@ void main() {
       WidgetTester tester,
     ) async {
       await tester.pumpWidget(
-        MaterialApp(
-          home: Scaffold(
-            body: ChatMessageBubble(
-              message: testMessage,
-              isMe: true,
-            ),
+        wrapWithTheme(
+          ChatMessageBubble(
+            message: testMessage,
+            isMe: true,
           ),
         ),
       );
@@ -63,13 +70,11 @@ void main() {
       WidgetTester tester,
     ) async {
       await tester.pumpWidget(
-        MaterialApp(
-          home: Scaffold(
-            body: ChatMessageBubble(
-              message: testMessage,
-              isMe: true,
-              deliveryStatus: 'sending',
-            ),
+        wrapWithTheme(
+          ChatMessageBubble(
+            message: testMessage,
+            isMe: true,
+            deliveryStatus: 'sending',
           ),
         ),
       );
@@ -84,13 +89,11 @@ void main() {
       WidgetTester tester,
     ) async {
       await tester.pumpWidget(
-        MaterialApp(
-          home: Scaffold(
-            body: ChatMessageBubble(
-              message: testMessage,
-              isMe: true,
-              deliveryStatus: 'sent',
-            ),
+        wrapWithTheme(
+          ChatMessageBubble(
+            message: testMessage,
+            isMe: true,
+            deliveryStatus: 'sent',
           ),
         ),
       );
@@ -103,13 +106,11 @@ void main() {
       WidgetTester tester,
     ) async {
       await tester.pumpWidget(
-        MaterialApp(
-          home: Scaffold(
-            body: ChatMessageBubble(
-              message: testMessage,
-              isMe: true,
-              deliveryStatus: 'delivered',
-            ),
+        wrapWithTheme(
+          ChatMessageBubble(
+            message: testMessage,
+            isMe: true,
+            deliveryStatus: 'delivered',
           ),
         ),
       );
@@ -122,12 +123,10 @@ void main() {
       WidgetTester tester,
     ) async {
       await tester.pumpWidget(
-        MaterialApp(
-          home: Scaffold(
-            body: ChatMessageBubble(
-              message: testMessage,
-              isMe: true,
-            ),
+        wrapWithTheme(
+          ChatMessageBubble(
+            message: testMessage,
+            isMe: true,
           ),
         ),
       );
@@ -138,12 +137,10 @@ void main() {
 
     testWidgets('aligns my messages to the right', (WidgetTester tester) async {
       await tester.pumpWidget(
-        MaterialApp(
-          home: Scaffold(
-            body: ChatMessageBubble(
-              message: testMessage,
-              isMe: true,
-            ),
+        wrapWithTheme(
+          ChatMessageBubble(
+            message: testMessage,
+            isMe: true,
           ),
         ),
       );
@@ -156,12 +153,10 @@ void main() {
       WidgetTester tester,
     ) async {
       await tester.pumpWidget(
-        MaterialApp(
-          home: Scaffold(
-            body: ChatMessageBubble(
-              message: testMessage,
-              isMe: false,
-            ),
+        wrapWithTheme(
+          ChatMessageBubble(
+            message: testMessage,
+            isMe: false,
           ),
         ),
       );
@@ -172,12 +167,10 @@ void main() {
 
     testWidgets('has correct container styling', (WidgetTester tester) async {
       await tester.pumpWidget(
-        MaterialApp(
-          home: Scaffold(
-            body: ChatMessageBubble(
-              message: testMessage,
-              isMe: false,
-            ),
+        wrapWithTheme(
+          ChatMessageBubble(
+            message: testMessage,
+            isMe: false,
           ),
         ),
       );
@@ -209,14 +202,12 @@ void main() {
       );
 
       await tester.pumpWidget(
-        MaterialApp(
-          home: Scaffold(
-            body: SizedBox(
-              width: 300,
-              child: ChatMessageBubble(
-                message: longMessage,
-                isMe: false,
-              ),
+        wrapWithTheme(
+          SizedBox(
+            width: 300,
+            child: ChatMessageBubble(
+              message: longMessage,
+              isMe: false,
             ),
           ),
         ),
@@ -234,22 +225,20 @@ void main() {
       WidgetTester tester,
     ) async {
       await tester.pumpWidget(
-        MaterialApp(
-          home: Scaffold(
-            body: Column(
-              children: [
-                ChatMessageBubble(
-                  key: const Key('my-message'),
-                  message: testMessage,
-                  isMe: true,
-                ),
-                ChatMessageBubble(
-                  key: const Key('other-message'),
-                  message: testMessage,
-                  isMe: false,
-                ),
-              ],
-            ),
+        wrapWithTheme(
+          Column(
+            children: [
+              ChatMessageBubble(
+                key: const Key('my-message'),
+                message: testMessage,
+                isMe: true,
+              ),
+              ChatMessageBubble(
+                key: const Key('other-message'),
+                message: testMessage,
+                isMe: false,
+              ),
+            ],
           ),
         ),
       );
