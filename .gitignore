@@ -33,8 +33,6 @@ build/
 # FVM Version Cache
 .fvm/
 
-**/*.freezed.dart
-**/*.g.dart
 
 
 
